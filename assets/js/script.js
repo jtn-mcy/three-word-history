@@ -1,4 +1,4 @@
-/**************************************************************************************
+/***************************************************************
  * NEWSAPI - fetching data from news API to obtain results and dates
  * functions: newsAPI, obtainArrays
  * &from=YYYY-MM-DD &to=YYYY-MM-DD
@@ -61,6 +61,9 @@ async function obtainArrays () { //will combine the two article arrays over a sp
             arrHeadlineCount[indexHeadline] = 1 //sets index of array
         }
     }
+    for (i=0; i<combinedArticles.length; i++) {
+
+    }
     return [arrDate, arrHeadlineCount]
 }
 
@@ -93,7 +96,7 @@ async function jsonifiedArray () {
  * Adopted vars: userInput (from NEWSAPI)
  * Article object properties: content, description, image, publishedAt, source, title, url
  */
-var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
+// var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
 var gNewsApiBase = 'https://gnews.io/api/v4/search?';
 var gLanguage = '&lang=' + 'en'; //fromDate defined above
 var gSortBy = '&sortby=' + 'relevance'; //toDate defined above
@@ -119,6 +122,9 @@ async function grabGNewsArticle () { //obtain a random article from some year
 }
 
 function addGArticleData (article) { //creates elements to add article details
+    parentEl = document.querySelector('#gnews-article');
+    removeAllChildren(parentEl);
+
     var titleEl = document.createElement('h4');
     var contentEl = document.createElement('p');
     var urlEl = document.createElement('a');
@@ -130,10 +136,40 @@ function addGArticleData (article) { //creates elements to add article details
     urlEl.setAttribute('href', article['url']);
     imgEl.setAttribute('src', article['image']);
 
-    document.getElementById('gnews-article').appendChild(titleEl);
-    document.getElementById('gnews-article').appendChild(contentEl);
-    document.getElementById('gnews-article').appendChild(urlEl);
-    document.getElementById('gnews-article').appendChild(imgEl);
+    parentEl.appendChild(titleEl);
+    parentEl.appendChild(contentEl);
+    parentEl.appendChild(urlEl);
+    parentEl.appendChild(imgEl);
 }
+
+function removeAllChildren(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+/******************************************
+ *  Compiling all functions to construct the page
+ *  Functions: compileSearch
+ * 
+ */
+
+function compileSearch () {
+    jsonData = jsonifiedArray(); //obtain jsonData to be used for graphing
+    grabGNewsArticle();
+
+
+
+}
+
+
+
+/**************************************************
+ * event listeners
+ * function
+ */
+document.getELementById("").addEventListener('click', function () {
+    userInput = document.getElementById("").textContent;
+    compileSearch();
+})
 
 // gArticleEx = grabGNewsArticle()

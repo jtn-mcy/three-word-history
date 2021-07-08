@@ -3,10 +3,10 @@
 
 .sidenav {
     height: 100%; 
-    width: 160px; 
+    width: 180px; 
     position: fixed; 
     z-index: 1; 
-    top: 0; 
+ 
     left: 0;
     background-color: #111; 
     overflow-x: hidden; 
@@ -29,4 +29,18 @@
     .sidenav a {font-size: 18px;}
 }
 
+
+.notification {
+    text-align: center;
+    font-size: larger;
+    background: blue;
+    color: white;
+    z-index: 1; 
+    padding: 25px 27px 25px 45px;
+    text-decoration: none;
+    font-size: 25px;
+    left: 0;
+    display: block;
+    
+}
   
