@@ -168,9 +168,10 @@ function removeAllChildren(parent) {
  * 
  */
 
-function compileSearch () {
-    jsonData = jsonifiedArray(); //obtain jsonData to be used for graphing
-    grabGNewsArticle();
+function compileSearch () { //runs when user clicks search
+    jsonData = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
+    grabGNewsArticle(); //populates the #gnews-article column
+    //add code that will update the index.html
 
 
 
@@ -182,9 +183,17 @@ function compileSearch () {
  * event listeners
  * function
  */
-document.getELementById("").addEventListener('click', function () {
+document.getELementById("").addEventListener('click', function () { //clicks search button
     userInput = document.getElementById("").textContent;
     compileSearch();
+})
+
+document.getElementById("").addEventListener('click', function () { //clicks view results
+    console.log('view results!');
+})
+
+document.getElementById("").addEventListener('click', function () { //clicks go back
+    console.log('go back!');
 })
 
 // gArticleEx = grabGNewsArticle()
