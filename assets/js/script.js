@@ -1,6 +1,6 @@
 /***************************************************************
  * NEWSAPI - fetching data from news API to obtain results and dates
- * functions: newsAPI, obtainArrays
+ * functions: newsAPI, obtainArrays, jsonified Array, addNewsApiData
  * &from=YYYY-MM-DD &to=YYYY-MM-DD
  * &sortby=(relevancy, popularity, publishedAt)
  * id in html: newsapi-article
@@ -61,14 +61,19 @@ async function obtainArrays () { //will combine the two article arrays over a sp
             arrHeadlineCount[indexHeadline] = 1 //sets index of array
         }
     }
+    var articleTitleArr = [] //declare a variable to obtain article titles
     for (i=0; i<combinedArticles.length; i++) {
-
+        if (i === 5) {break} //only up to 5 articles to display
+        else {
+            articleTitleArr.push(combinedArticles[i]['title']);
+        }
     }
+    addNewsApiData(articleTitleArr); //display article titles into column
     return [arrDate, arrHeadlineCount]
 }
 
 jsonArr = []
-async function jsonifiedArray () {
+async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
     let unjsonifiedArr = await obtainArrays()
     console.log(unjsonifiedArr.length);
     firstUnjson = unjsonifiedArr[0];
@@ -81,6 +86,16 @@ async function jsonifiedArray () {
         obj['date'] = firstUnjson[i];
         obj['HeadlineCount'] = secondUnjson[i]
         jsonArr.push(obj);
+    }
+}
+
+function addNewsApiData(arr) { //updates column with 5 search articles
+    var parentEl = document.querySelector('#newsapi-article');
+    removeAllChildren(parentEl) //clears column list
+    for (i=0; i<arr.length; i++) {
+        var childEl = document.createElement('p');
+        childEl.textContent = arr[i];
+        parentEl.appendChild(childEl);
     }
 }
 
@@ -123,7 +138,7 @@ async function grabGNewsArticle () { //obtain a random article from some year
 
 function addGArticleData (article) { //creates elements to add article details
     parentEl = document.querySelector('#gnews-article');
-    removeAllChildren(parentEl);
+    removeAllChildren(parentEl); //clears column list
 
     var titleEl = document.createElement('h4');
     var contentEl = document.createElement('p');
