@@ -28,26 +28,37 @@ var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, pageSize, sort
 //fetching from newsAPI, obtain array of article objects to extract dates and headlines/data from
 async function newsAPI (url) {
     // console.log(url);
-    const response = await fetch(url);
+    const response = await fetch(url); //obtain response
     // console.log(response);
-    const data_newsAPI = await response.json();
+    const data_newsAPI = await response.json(); //jsonify the response
     // console.log(data_newsAPI);
-    console.log('Total results: ', data_newsAPI['totalResults']);
-    // console.log(data_newsAPI['articles'])
-    return data_newsAPI['articles'];
+    console.log('Total results: ', data_newsAPI['totalResults']); 
+    console.log(data_newsAPI['articles'])
+    return data_newsAPI['articles']; //returns an array of articles
 }
 
-var arrayDate = []; // dates
-var arrayHeadlineCount = []; //headlines count per date
+var arrDate = []; // dates
+var arrHeadlineCount = []; //headlines count per date
 
-async function obtainArrays () {
-    const articles14to7 = await newsAPI(newsApiURL14to7);
+async function obtainArrays () { //will combine the two article arrays over a span of 2 weeks and separate 
+    let articles14to7 = await newsAPI(newsApiURL14to7);
+    articles14to7 = articles14to7.reverse(); //puts the articles in chronological order
     // console.log(articles14to7)
-    const articles7to0 = await newsAPI(newsApiURL7toNow);
+    let articles7to0 = await newsAPI(newsApiURL7toNow);
+    articles7to0 = articles7to0.reverse() //puts the articles in chronological order
     var combinedArticles = articles14to7.concat(articles7to0);
-    console.log('Total amount of articles: ', combinedArticles.length)
+    console.log('Total amount of articles: ', combinedArticles.length); //tells us how many articles obtained total
     for (i=0; i<combinedArticles.length; i++) {
-        arrayDate.push(combinedArticles[i]['publishedAt'].substr(0,9))
+        var indexHeadline = 0 //declare/rest indexHeadline every loop
+        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(0,10))) { //.substr(0,10) will grab the YYYY-MM-DD standardized in the API object
+            //obtain index of arrDate[date]--it will match index of arrHeadlineCount
+            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
+            arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
+        } else {
+            arrDate.push(combinedArticles[i]['publishedAt'].substr(0,10))
+            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
+            arrHeadlineCount[indexHeadline] = 1 //sets index of array
+        }
     }
 }
 
