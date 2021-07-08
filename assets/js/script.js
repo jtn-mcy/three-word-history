@@ -217,8 +217,30 @@ function init() {
 }
 
 function renderSearchHistory (userSearches) {
-    
+    searchList = document.querySelector(''); //get parent of search results
+    removeAllChildren(searchList); //remove searchlist children
+    for (var i=userSearches.length-1; i>=0; i--) {
+        newSearchTerm = document.createElement('li'); //create list element
+        newSearchTerm.textContent = userSearches[i]; //give list text from element i of gp1SearchHistory
+        searchList.appendChild(searchlist); //append the list element to searchList
+    }
 }
 
+function saveSearchHistory () {
+    localStorage.setItem('gp1SearchHistory', JSON.stringify(gp1SearchHistory)); //save current gp1SearchHistory array
+}
+
+function updateSearchHistory (userPrompt) { //update user search terms
+    var inputSearchItem = userPrompt.trim();
+    gp1SearchHistory.push(userPrompt);
+    saveSearchHistory();
+    renderSearchHistory();
+}
+
+function clearSearchHistory () {
+    gp1SearchHistory = [];
+    saveSearchHistory();
+    renderSearchHistory(gp1SearchHistory);
+}
 
 // gArticleEx = grabGNewsArticle()
