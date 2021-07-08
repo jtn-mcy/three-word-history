@@ -177,8 +177,6 @@ function compileSearch () { //runs when user clicks search
 
 }
 
-
-
 /**************************************************
  * event listeners
  * function
@@ -195,5 +193,32 @@ document.getElementById("").addEventListener('click', function () { //clicks vie
 document.getElementById("").addEventListener('click', function () { //clicks go back
     console.log('go back!');
 })
+
+document.getElementById("").addEventListener('click', function () { //clicks a search history button
+    console.log('search history item!')
+})
+
+/****************************************************
+ * Local Storage
+ * Add a search history for the user
+ * Functions:
+ * 
+ */
+gp1SearchHistory = [];
+
+function init() {
+    var tempLocal = JSON.parse(localStorage.getItem('gp1SearchHistory'));
+    console.log(tempLocal);
+    if (tempLocal !== null) {
+        console.log('local storage gp1SearchHistory already exists, rendering it');
+        gp1SearchHistory = tempLocal;
+    }
+    renderSearchHistory (gp1SearchHistory);
+}
+
+function renderSearchHistory (userSearches) {
+    
+}
+
 
 // gArticleEx = grabGNewsArticle()
