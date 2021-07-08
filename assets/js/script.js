@@ -3,7 +3,7 @@
  * functions: newsAPI, obtainArrays
  * &from=YYYY-MM-DD &to=YYYY-MM-DD
  * &sortby=(relevancy, popularity, publishedAt)
- * 
+ * id in html: newsapi-article
  */
 
 //Userinput from search form
@@ -116,7 +116,6 @@ async function grabGNewsArticle () { //obtain a random article from some year
     console.log(gArticleArr);
     gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
     addGArticleData(gArticle);
-    return gArticle //returns an object of article
 }
 
 function addGArticleData (article) { //creates elements to add article details
@@ -131,10 +130,10 @@ function addGArticleData (article) { //creates elements to add article details
     urlEl.setAttribute('href', article['url']);
     imgEl.setAttribute('src', article['image']);
 
-    document.getElementById('').appendChild(titleEl);
-    document.getElementById('').appendChild(contentEl);
-    document.getElementById('').appendChild(urlEl);
-    document.getElementById('').appendChild(imgEl);
+    document.getElementById('gnews-article').appendChild(titleEl);
+    document.getElementById('gnews-article').appendChild(contentEl);
+    document.getElementById('gnews-article').appendChild(urlEl);
+    document.getElementById('gnews-article').appendChild(imgEl);
 }
 
-gArticleEx = grabGNewsArticle()
+// gArticleEx = grabGNewsArticle()
