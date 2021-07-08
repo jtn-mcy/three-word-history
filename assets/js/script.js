@@ -91,7 +91,7 @@ async function jsonifiedArray () {
  * CHRONICLING AMERICA API - fetching data from chronicling america api to obtain results and dates
  * Functions:gNewsAPI, grabGNewsArticle,
  * Adopted vars: userInput (from NEWSAPI)
- * 
+ * Article object properties: content, description, image, publishedAt, source, title, url
  */
 var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
 var gNewsApiBase = 'https://gnews.io/api/v4/search?';
@@ -115,7 +115,26 @@ async function grabGNewsArticle () { //obtain a random article from some year
     gArticleArr = await gNewsAPI(gNewsApiURL);
     console.log(gArticleArr);
     gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
-    return gArticle
+    addGArticleData(gArticle);
+    return gArticle //returns an object of article
+}
+
+function addGArticleData (article) { //creates elements to add article details
+    var titleEl = document.createElement('h4');
+    var contentEl = document.createElement('p');
+    var urlEl = document.createElement('a');
+    var imgEl = document.createElement('img');
+    
+    titleEl.textContent = article['title'];
+    contentEl.textContent = article['description'];
+    urlEl.textContent = 'link to url';
+    urlEl.setAttribute('href', article['url']);
+    imgEl.setAttribute('src', article['image']);
+
+    document.getElementById('').appendChild(titleEl);
+    document.getElementById('').appendChild(contentEl);
+    document.getElementById('').appendChild(urlEl);
+    document.getElementById('').appendChild(imgEl);
 }
 
 gArticleEx = grabGNewsArticle()
