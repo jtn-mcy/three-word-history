@@ -1,11 +1,10 @@
-/***************************************************************
- * NEWSAPI - fetching data from news API to obtain results and dates
+/*******************NEWSAPI*********************************
+ * fetching data from news API to obtain results and dates
  * functions: newsAPI, obtainArrays, jsonified Array, addNewsApiData
  * &from=YYYY-MM-DD &to=YYYY-MM-DD
  * &sortby=(relevancy, popularity, publishedAt)
  * id in html: newsapi-article
  */
-
 //Userinput from search form
 var userInput = 'texas'; //searchInput.value
 //Query parameters
@@ -105,12 +104,13 @@ function addNewsApiData(arr) { //updates column with 5 search articles
 // console.log('newsApiURL14to7 ', newsApiURL14to7);
 // console.log('newsApiURL7toNow ', newsApiURL7toNow)
 
-/************************************************************
- * CHRONICLING AMERICA API - fetching data from chronicling america api to obtain results and dates
+/******************GNEWS API********************************
+ * Fetching data from gNEWS api to obtain a random article from long ago
  * Functions:gNewsAPI, grabGNewsArticle,
  * Adopted vars: userInput (from NEWSAPI)
  * Article object properties: content, description, image, publishedAt, source, title, url
  */
+
 // var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
 var gNewsApiBase = 'https://gnews.io/api/v4/search?';
 var gLanguage = '&lang=' + 'en'; //fromDate defined above
@@ -162,8 +162,8 @@ function removeAllChildren(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
-/******************************************
- *  Compiling all functions to construct the page
+/*****************COMPILESEARCH*************************
+ *  Compiling all functions to populate the index and graph htmls
  *  Functions: compileSearch
  * 
  */
@@ -177,9 +177,9 @@ function compileSearch () { //runs when user clicks search
 
 }
 
-/**************************************************
- * event listeners
- * function
+/**********EVENT LISTENERS*************************
+ * Event listeners for clicking the search, view results, go back, search history, and clear history
+ * Functions: None
  */
 document.getELementById("").addEventListener('click', function () { //clicks search button
     userInput = document.getElementById("").textContent;
@@ -204,11 +204,9 @@ document.getElementById("").addEventListener('click', function () { //clicks a c
 })
 */
 
-/****************************************************
- * Local Storage
- * Add a search history for the user
+/**************LOCAL STORAGE***************************
+ * Add a search history and set up local storage for the user
  * Functions: init, renderSearchhistory, saveSearchHistory, updateSearchHistory, clearSearchHistory
- * 
  */
 gp1SearchHistory = [];
 
