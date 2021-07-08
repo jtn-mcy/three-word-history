@@ -198,10 +198,16 @@ document.getElementById("").addEventListener('click', function () { //clicks a s
     console.log('search history item!')
 })
 
+/* uncomment if we add a clear history button! A clearSearchHistory has been added (and commented out) in Local Storage section
+document.getElementById("").addEventListener('click', function () { //clicks a clear history button
+    console.log('clear search history!')
+})
+*/
+
 /****************************************************
  * Local Storage
  * Add a search history for the user
- * Functions:
+ * Functions: init, renderSearchhistory, saveSearchHistory, updateSearchHistory, clearSearchHistory
  * 
  */
 gp1SearchHistory = [];
@@ -232,15 +238,19 @@ function saveSearchHistory () {
 
 function updateSearchHistory (userPrompt) { //update user search terms
     var inputSearchItem = userPrompt.trim();
-    gp1SearchHistory.push(userPrompt);
+    gp1SearchHistory.push(inputSearchItem);
     saveSearchHistory();
     renderSearchHistory();
 }
 
+/*!uncomment if clear search history button is added!
 function clearSearchHistory () {
     gp1SearchHistory = [];
     saveSearchHistory();
     renderSearchHistory(gp1SearchHistory);
-}
+ } */
+
+
+//init() //initializes the page and renders the search history
 
 // gArticleEx = grabGNewsArticle()
