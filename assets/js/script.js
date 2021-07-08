@@ -7,10 +7,10 @@
  */
 
 //Userinput from search form
-var userInput = 'google+texas'; //searchInput.value
+var userInput = 'texas'; //searchInput.value
 //Query parameters
-var sortBy = '&sortby=' + 'publishedAt';
-var pageSize = '&pageSize=' + 100;
+var nSortBy = '&sortby=' + 'publishedAt';
+var nPageSize = '&pageSize=' + 100;
 // var apiKey = '&apiKey=c7f77b1aac9843b6b86b9cf855938226'; //apikey
 var fromDate = '&from=';
 var toDate = '&to=';
@@ -20,8 +20,8 @@ var sevenDaysAgo = moment().subtract(17, 'days').format("YYYY-MM-DD");
 var now = moment().format('YYY-MM-DD');
 //base API URL and concatenation with 
 var newsApiBase = 'https://newsapi.org/v2/everything?'; //base link to add from
-var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, pageSize, sortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
-var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, pageSize, sortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
+// var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
+// var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
 
 
 
@@ -81,18 +81,41 @@ async function jsonifiedArray () {
     }
 }
 
-jsonifiedArray()    
+// jsonifiedArray();    
 
 
 // console.log('newsApiURL14to7 ', newsApiURL14to7);
 // console.log('newsApiURL7toNow ', newsApiURL7toNow)
 
-/**
+/************************************************************
  * CHRONICLING AMERICA API - fetching data from chronicling america api to obtain results and dates
- * Functions:
+ * Functions:gNewsAPI, grabGNewsArticle,
  * Adopted vars: userInput (from NEWSAPI)
  * 
  */
+var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
+var gNewsApiBase = 'https://gnews.io/api/v4/search?';
+var gLanguage = '&lang=' + 'en'; //fromDate defined above
+var gSortBy = '&sortby=' + 'relevance'; //toDate defined above
+var gOneYearAgo = moment().subtract(365, 'days').format('YYYY-MM-DD') + 'T00:00:00Z';
+var gTenYearsAgo = moment().subtract(365*10, 'days').format('YYYY-MM-DD') + 'T00:00:00Z';
+var gNewsApiURL =  gNewsApiBase.concat('q=', userInput, gSortBy, gLanguage, fromDate, gTenYearsAgo, toDate, gOneYearAgo, apiKeyGNews);
 
+//fetching from gNewsAPI, obtain array of article objects to extract dates and headlines/data from
+async function gNewsAPI (url) {
+    // console.log(url)
+    const response = await fetch(url);
+    const data_gNewsAPI = await response.json();
+    console.log('Total results: ', data_gNewsAPI['totalArticles']);
+    console.log(data_gNewsAPI);
+    return data_gNewsAPI['articles'] //returns an array of article objects
+}
 
-var chAmApiBase = 'https://chroniclingamerica.loc.gov/search/titles/results/'
+async function grabGNewsArticle () { //obtain a random article from some year
+    gArticleArr = await gNewsAPI(gNewsApiURL);
+    console.log(gArticleArr);
+    gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
+    return gArticle
+}
+
+gArticleEx = grabGNewsArticle()
