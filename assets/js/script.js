@@ -64,6 +64,7 @@ async function obtainArrays () { //will combine the two article arrays over a sp
     return [arrDate, arrHeadlineCount]
 }
 
+jsonArr = []
 async function jsonifiedArray () {
     let unjsonifiedArr = await obtainArrays()
     console.log(unjsonifiedArr.length);
@@ -72,16 +73,15 @@ async function jsonifiedArray () {
     // console.log('unjsonifiedArr', unjsonifiedArr)
     // console.log('firstArr', unjsonifiedArr[0][0])
     // console.log('secondArr', unjsonifiedArr[1])
-    jsonArr = []
-    for (i=0; i<=unjsonifiedArr.length; i++) {
+    for (i=0; i<unjsonifiedArr[0].length; i++) {
         obj = {};
-        obj[firstUnjson[i]] = secondUnjson[i];
+        obj['date'] = firstUnjson[i];
+        obj['HeadlineCount'] = secondUnjson[i]
         jsonArr.push(obj);
     }
-    return jsonArr
 }
 
-var jsonArray = jsonifiedArray()    
+jsonifiedArray()    
 
 
 // console.log('newsApiURL14to7 ', newsApiURL14to7);
