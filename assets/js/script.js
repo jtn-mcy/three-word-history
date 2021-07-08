@@ -11,7 +11,7 @@ var userInput = 'google+texas'; //searchInput.value
 //Query parameters
 var sortBy = '&sortby=' + 'publishedAt';
 var pageSize = '&pageSize=' + 100;
-var apiKey = '&apiKey=c7f77b1aac9843b6b86b9cf855938226'; //apikey
+// var apiKey = '&apiKey=c7f77b1aac9843b6b86b9cf855938226'; //apikey
 var fromDate = '&from=';
 var toDate = '&to=';
 //date ranges
