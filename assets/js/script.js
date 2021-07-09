@@ -19,8 +19,8 @@ var sevenDaysAgo = moment().subtract(17, 'days').format("YYYY-MM-DD");
 var now = moment().format('YYY-MM-DD');
 //base API URL and concatenation with 
 var newsApiBase = 'https://newsapi.org/v2/everything?'; //base link to add from
-// var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
-// var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
+var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
+var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
 
 
 
@@ -86,6 +86,9 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
         obj['HeadlineCount'] = secondUnjson[i]
         jsonArr.push(obj);
     }
+    var appendThis = drawChart(jsonArr);
+    document.getElementsByTagName('body').appendChild(appendThis);
+
 }
 
 function addNewsApiData(arr) { //updates column with 5 search articles
@@ -101,8 +104,25 @@ function addNewsApiData(arr) { //updates column with 5 search articles
 // jsonifiedArray();    
 
 
-// console.log('newsApiURL14to7 ', newsApiURL14to7);
-// console.log('newsApiURL7toNow ', newsApiURL7toNow)
+/******************draw the graph********************************
+ * Fetching data from jsonArr to obtain a graph to display in graph.html
+ * Functions: drawchart
+ * Adopted vars: jsonArr (from NEWSAPI)
+ */
+function drawChart (jsonData) {
+    var svg = dimple.newSvg("body", 800, 600);
+    var data = jsonData;
+    console.log(data);
+    var chart = new dimple.chart(svg, data);
+    chart.addCategoryAxis("x", "Date");
+    chart.addMeasureAxis("y", "HeadlineCount");
+    chart.addSeries(null, dimple.plot.scatterplot);
+    chart.draw();
+}
+
+
+// // console.log('newsApiURL14to7 ', newsApiURL14to7);
+// // console.log('newsApiURL7toNow ', newsApiURL7toNow)
 
 /******************GNEWS API********************************
  * Fetching data from gNEWS api to obtain a random article from long ago
