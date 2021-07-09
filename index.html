@@ -1,41 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <script src="assets/lib/d3.v4.min.js"></script>
     <script src="assets/lib/dimple.v2.3.0.min.js"></script>
-</head>
-<body>
-  <div id="chartContainer">
-    <script type="text/javascript">
-      var svg = dimple.newSvg("#chartContainer", 590, 400);
-        d3.tsv("example_data.tsv", function (data) {
-            /*
-                time format: year-day-month
+    <title>Three Word History</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
 
-               var data = [
-                    {time: '2012-04-20', freq: 5, news: 'cnbc', social_media: 'facebook'},
-                    {time: '2011-02-10', freq: 3, news: 'fox', social_media: 'twitter'},
-                    {time: '2010-01-05', freq: 8, news: 'cnn', social_media: 'myspace'},
-                ];
-            */
-        var data = [
-            {time: '2012-04-20', freq: 5, news: 'cnbc', social_media: 'facebook'},
-            {time: '2011-02-10', freq: 3, news: 'fox', social_media: 'twitter'},
-            {time: '2010-01-05', freq: 8, news: 'cnn', social_media: 'myspace'},
-        ];
-          var myChart = new dimple.chart(svg, data);
-          myChart.setBounds(60, 30, 500, 330) //YYYY-MM-DDTHH:MM:SS
-          myChart.addTimeAxis("x", "time","%Y-%m-%d","%d"); // input format: %Y-%m-%d, output format: %m
-          myChart.addMeasureAxis("y", "freq");
-          myChart.addSeries(["news", "social_media"], dimple.plot.bubble);
-          myChart.addLegend(200, 10, 360, 20, "right");
-          myChart.draw();
-        });
-    </script>
+<body>
+
+<div class="container">
+    <div class="notification">
+        Three Word <strong>History</strong>.
+    </div>
+    </div>
+
+  <!-- Side navigation -->
+<div class="sidenav">
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
   </div>
+  
+
+  <div class="main">
+    <div id="chartContainer">
+      <script type="text/javascript">
+        var svg = dimple.newSvg("#chartContainer", 590, 400);
+          d3.tsv("example_data.tsv", function (data) {
+              /*
+                  time format: year-day-month
+  
+                 var data = [
+                      {time: '2012-04-20', freq: 5, news: 'cnbc', social_media: 'facebook'},
+                      {time: '2011-02-10', freq: 3, news: 'fox', social_media: 'twitter'},
+                      {time: '2010-01-05', freq: 8, news: 'cnn', social_media: 'myspace'},
+                  ];
+              */
+          var data = [
+              {time: '2012-04-20', freq: 5, news: 'cnbc', social_media: 'facebook'},
+              {time: '2011-02-10', freq: 3, news: 'fox', social_media: 'twitter'},
+              {time: '2010-01-05', freq: 8, news: 'cnn', social_media: 'myspace'},
+          ];
+            var myChart = new dimple.chart(svg, data);
+            myChart.setBounds(60, 30, 500, 330) //YYYY-MM-DDTHH:MM:SS
+            myChart.addTimeAxis("x", "time","%Y-%m-%d","%d"); // input format: %Y-%m-%d, output format: %m
+            myChart.addMeasureAxis("y", "freq");
+            myChart.addSeries(["news", "social_media"], dimple.plot.bubble);
+            myChart.addLegend(200, 10, 360, 20, "right");
+            myChart.draw();
+          });
+      </script>
+    </div>
+  </div>
+    <!-- CRISTINA: Top Portion -->
+    <!-- JAMES: Bottom Portion -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!--moment JS-->
+    <script src='./assets/js/script.js'></script>
+    <!--utilized JS-->
+
 </body>
+
 </html>
