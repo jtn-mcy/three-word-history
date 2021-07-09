@@ -85,7 +85,7 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
         jsonArr.push(obj);
     }
     var appendThis = drawChart(jsonArr);
-    document.getElementsByTagName('body').appendChild(appendThis);
+    document.getElementsByTagName('body').appendChild(appendThis); //need to fix this! error in console append child not a function
 }
 
 function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search articles
@@ -169,18 +169,22 @@ function addGArticleData (article) { //creates elements to add article details
 
     var titleEl = document.createElement('h4');
     var contentEl = document.createElement('p');
+    var publishEl = document.createElement('p')
     var urlEl = document.createElement('a');
     var imgEl = document.createElement('img');
     var brEl = document.createElement('br');
+
     
     titleEl.textContent = 'Title: '+ article['title'];
-    contentEl.textContent = 'Description: ' + article['description'];
+    contentEl.textContent = 'Description: ' + article['description'] + ' ... [continued in article]\n';
+    publishEl.textContent = 'Publish date: ' + article['publishedAt'].substr(0,10) + '\n';
     urlEl.textContent = 'link to article';
     urlEl.setAttribute('href', article['url']);
     imgEl.setAttribute('src', article['image']);
 
     parentEl.appendChild(titleEl); //add title
     parentEl.appendChild(contentEl); //add description
+    parentEl.appendChild(publishEl);
     parentEl.appendChild(urlEl); //add url
     parentEl.appendChild(brEl); //add break
     parentEl.appendChild(imgEl); //add image
