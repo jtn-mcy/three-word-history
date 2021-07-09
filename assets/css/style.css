@@ -1,7 +1,7 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 
 
-.sidenav {
+/* .sidenav {
     height: 100%; 
     width: 180px; 
     position: fixed; 
@@ -27,7 +27,7 @@
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
-}
+} */
 
 
 .notification {
