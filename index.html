@@ -30,9 +30,9 @@
   
 
   <div class="main">
-    <div id="chartContainer">
+    <div id="chartContainer" class="scatter-plot">
       <script type="text/javascript">
-        var svg = dimple.newSvg("#chartContainer", 590, 400);
+        var svg = dimple.newSvg("#chartContainer", 1180, 800);
           d3.tsv("example_data.tsv", function (data) {
               /*
                   time format: year-day-month
@@ -49,11 +49,11 @@
               {time: '2010-01-05', freq: 8, news: 'cnn', social_media: 'myspace'},
           ];
             var myChart = new dimple.chart(svg, data);
-            myChart.setBounds(60, 30, 500, 330) //YYYY-MM-DDTHH:MM:SS
+            myChart.setBounds(60, 30, 1000, 660) //YYYY-MM-DDTHH:MM:SS
             myChart.addTimeAxis("x", "time","%Y-%m-%d","%d"); // input format: %Y-%m-%d, output format: %m
             myChart.addMeasureAxis("y", "freq");
             myChart.addSeries(["news", "social_media"], dimple.plot.bubble);
-            myChart.addLegend(200, 10, 360, 20, "right");
+            myChart.addLegend(200, 10, 720, 40, "right");
             myChart.draw();
           });
       </script>
