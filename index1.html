@@ -1,29 +1,94 @@
-<section class="section">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Three Word History</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
     <div class="container">
-        <p>search input area</p>
-        <div class="field">
-            <label class="label">Name</label>
-            <div class="control">
-                <input class="input" type="text" placeholder="Enter Searchword" id="search-input">
-            </div>
-        </div>
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-link">Submit</button>
-            </div>
+        <div class="notification">
+            Three Word <strong>History</strong>
         </div>
     </div>
-    <div class="container">
-        <p>two columns</p>
-        <div class="columns">
-            <div class="column is-4" id="newsapi-article">
-                <p>NewsAPI display</p>
-            </div>
-            <div class="column is-4" id="gnews-article">
-                <p>GNews API display</p>
-            </div>
-            <!-- <div class="column is-4">
-                        <p>column 3</p> ;-->
-        </div>
+
+    <!-- Side navigation -->
+    <!-- <div class="sidenav">
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+  </div> -->
+
+
+    <div class="main">
     </div>
-</section>
+
+
+    <!-- CRISTINA: Top Portion -->
+    <!-- JAMES: Bottom Portion -->
+    <section class="section p-1">
+        <div class="container has-background-warning p-1">
+            <p class="title is-1">Main Area</p>
+            <div class="columns p-2">
+                <div class="column is-3 has-background-light p-2" id="info-area">
+                    <p class="title is-3">Information Area</p>
+                    <p>Here is how this works. We have a search area to enter keywords into. Enter keywords there and
+                        hit the Search button.</p>
+                </div>
+                <div class="column is-9 has-background-light p-2" id="display-area">
+                    <!-- Search and results main area on top-->
+                    <div class="container p-2">
+                        <p class="title is-3">Search Input Area</p>
+                        <div class="field">
+                            <label class="label">What is your searchword?</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Enter Searchword" id="search-input">
+                            </div>
+                        </div>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button class="button is-link">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output display columns from search results -->
+                    <div class="container has-background-primary p-2">
+                        <p class="title is-4">Output Columns</p>
+                        <div class="columns p-2">
+                            <div class="column is-6 has-background-success p-2" id="newsapi-article">
+                                <p>NewsAPI display</p>
+                                <p class="title is-5 p-2">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae tempora, vel doloremque ipsum sapiente impedit soluta inventore quam eius asperiores ad sequi ea nulla ducimus, qui incidunt! Aliquid, totam accusamus!
+                                </p>
+                            </div>
+                            <div class="column is-6 has-background-success p-2" id="gnews-article">
+                                <p class="title-is-3">GNews API display</p>
+                                <p class="title is-5 p-2">
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi porro vero cupiditate incidunt dicta nulla voluptatem, debitis reprehenderit, vel asperiores necessitatibus laboriosam nisi! Assumenda quo suscipit, distinctio quasi asperiores pariatur!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--moment JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <!--utilized JS-->
+    <script src='./assets/js/script.js'></script>
+
+</body>
+
+</html>
