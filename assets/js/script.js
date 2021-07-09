@@ -57,16 +57,17 @@ async function obtainArrays () { //will combine the two article arrays over a sp
         }
     }
     var articleTitleArr = [] //declare a variable to obtain article titles
+    var articleURLArr = []
     for (i=0; i<combinedArticles.length; i++) {
         if (i === 5) {break} //only up to 5 articles to display
         else {
             articleTitleArr.push(combinedArticles[i]['title']);
+            articleURLArr.push(combinedArticles[i]['url'])
         }
     }
-    addNewsApiData(articleTitleArr); //display article titles into column
+    addNewsApiData(articleTitleArr, articleURLArr); //display article titles into column
     return [arrDate, arrHeadlineCount]
 }
-
 
 async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
     let unjsonifiedArr = await obtainArrays()
@@ -87,7 +88,7 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
     document.getElementsByTagName('body').appendChild(appendThis);
 }
 
-function addNewsApiData(arr) { //updates column with 5 search articles
+function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search articles
     var parentEl = document.querySelector('#newsapi-article');
     removeAllChildren(parentEl) //clears column list
 
@@ -98,21 +99,26 @@ function addNewsApiData(arr) { //updates column with 5 search articles
     parentEl.appendChild(titleEl);
     parentEl.appendChild(orderedListEl);
 
-    for (i=0; i<arr.length; i++) {
+    for (i=0; i<arrTitle.length; i++) {
         var childEl = document.createElement('li');
-        childEl.textContent = arr[i];
+        // childEl.textContent = arrTitle[i];
         childEl.setAttribute('class', 'title is-5 p-2');
+
+        var aEl = document.createElement('a');
+        aEl.setAttribute('href', arrURL[i]);
+        aEl.innerHTML = arrTitle[i];
+
+        childEl.appendChild(aEl);
         orderedListEl.appendChild(childEl);
     }
 }
 
 // jsonifiedArray();    
 
-
 /******************draw the graph********************************
  * Fetching data from jsonArr to obtain a graph to display in graph.html
  * Functions: drawchart
- * Adopted vars: jsonArr (from NEWSAPI)
+ * Adopted vars: jsonArr (values from NEWSAPI)
  */
 function drawChart (jsonData) {
     var svg = dimple.newSvg("body", 800, 600);
@@ -131,7 +137,6 @@ function drawChart (jsonData) {
  * Adopted vars: userInput (from NEWSAPI)
  * Article object properties: content, description, image, publishedAt, source, title, url
  */
-
 var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
 var gNewsApiBase = 'https://gnews.io/api/v4/search?';
 var gLanguage = '&lang=' + 'en'; //fromDate defined above
@@ -174,11 +179,11 @@ function addGArticleData (article) { //creates elements to add article details
     urlEl.setAttribute('href', article['url']);
     imgEl.setAttribute('src', article['image']);
 
-    parentEl.appendChild(titleEl);
-    parentEl.appendChild(contentEl);
-    parentEl.appendChild(urlEl);
-    parentEl.appendChild(brEl);
-    parentEl.appendChild(imgEl);
+    parentEl.appendChild(titleEl); //add title
+    parentEl.appendChild(contentEl); //add description
+    parentEl.appendChild(urlEl); //add url
+    parentEl.appendChild(brEl); //add break
+    parentEl.appendChild(imgEl); //add image
 }
 
 function removeAllChildren(parent) {
