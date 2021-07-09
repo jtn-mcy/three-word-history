@@ -15,12 +15,10 @@ var fromDate = '&from=';
 var toDate = '&to=';
 //date ranges
 var fourteenDaysAgo = moment().subtract(14, 'days').format("YYYY-MM-DD");
-var sevenDaysAgo = moment().subtract(17, 'days').format("YYYY-MM-DD");
+var sevenDaysAgo = moment().subtract(7, 'days').format("YYYY-MM-DD");
 var now = moment().format('YYY-MM-DD');
 //base API URL and concatenation with 
 var newsApiBase = 'https://newsapi.org/v2/everything?'; //base link to add from
-// var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
-// var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
 
 //fetching from newsAPI, obtain array of article objects to extract dates and headlines/data from
 async function newsAPI (url) {
@@ -38,21 +36,17 @@ var arrDate = []; // dates
 var arrHeadlineCount = []; //headlines count per date
 
 async function obtainArrays () { //will combine the two article arrays over a span of 2 weeks and separate
-    console.log('line 41: ', userInput)
     var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
     var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
-    console.log('newsApiURL14to7', newsApiURL14to7);
-    console.log('newsApi7toNow', newsApiURL7toNow);
     let articles14to7 = await newsAPI(newsApiURL14to7);
     articles14to7 = articles14to7.reverse(); //puts the articles in chronological order
-    // console.log(articles14to7)
     let articles7to0 = await newsAPI(newsApiURL7toNow);
     articles7to0 = articles7to0.reverse() //puts the articles in chronological order
     var combinedArticles = articles14to7.concat(articles7to0);
     console.log('Total amount of articles: ', combinedArticles.length); //tells us how many articles obtained total
-    for (i=0; i<combinedArticles.length; i++) {
-        var indexHeadline = 0 //declare/rest indexHeadline every loop
-        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(5,5))) { //.substr(5,10) will grab the MM-DD standardized in the API object
+    for (var i=0; i<combinedArticles.length; i++) {
+        var indexHeadline = 0 //declare/reset indexHeadline every loop
+        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(5,5))) { //.substr(5,5) will grab the MM-DD standardized in the API object
             //obtain index of arrDate[date]--it will match index of arrHeadlineCount
             indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(5,5));
             arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
