@@ -6,7 +6,7 @@
  * id in html: newsapi-article
  */
 //Userinput from search form
-var userInput = 'texas'; //searchInput.value
+var userInput = ''; //searchInput.value
 //Query parameters
 var nSortBy = '&sortby=' + 'publishedAt';
 var nPageSize = '&pageSize=' + 100;
@@ -165,13 +165,12 @@ function removeAllChildren(parent) {
 /*****************COMPILESEARCH*************************
  *  Compiling all functions to populate the index and graph htmls
  *  Functions: compileSearch
- * 
  */
 
 function compileSearch () { //runs when user clicks search
     jsonData = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
     grabGNewsArticle(); //populates the #gnews-article column
-    //add code that will update the index.html
+    //add code that will update the graph.html
 
 
 
@@ -181,17 +180,19 @@ function compileSearch () { //runs when user clicks search
  * Event listeners for clicking the search, view results, go back, search history, and clear history
  * Functions: None
  */
-document.getELementById("").addEventListener('click', function () { //clicks search button
-    userInput = document.getElementById("").textContent;
+document.getELementById("submit-input").addEventListener('click', function () { //clicks search button
+    userInput = document.getElementById("search-input").value;
     compileSearch();
 })
 
-document.getElementById("").addEventListener('click', function () { //clicks view results
+document.getElementById("view-results").addEventListener('click', function () { //clicks view results
     console.log('view results!');
+    //document.location.replace('graph.html);
 })
 
 document.getElementById("").addEventListener('click', function () { //clicks go back
     console.log('go back!');
+    //document.location.replace('index.html');
 })
 
 document.getElementById("").addEventListener('click', function () { //clicks a search history button
@@ -208,12 +209,12 @@ document.getElementById("").addEventListener('click', function () { //clicks a c
  * Add a search history and set up local storage for the user
  * Functions: init, renderSearchhistory, saveSearchHistory, updateSearchHistory, clearSearchHistory
  */
-gp1SearchHistory = [];
+var gp1SearchHistory = []; //base localstorage array
 
 function init() {
     var tempLocal = JSON.parse(localStorage.getItem('gp1SearchHistory'));
     console.log(tempLocal);
-    if (tempLocal !== null) {
+    if (tempLocal !== null) { //if user has search history, update gp1SearchHistory
         console.log('local storage gp1SearchHistory already exists, rendering it');
         gp1SearchHistory = tempLocal;
     }
