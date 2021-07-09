@@ -40,7 +40,9 @@ var arrHeadlineCount = []; //headlines count per date
 async function obtainArrays () { //will combine the two article arrays over a span of 2 weeks and separate
     console.log('line 41: ', userInput)
     var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
-    var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey); 
+    var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
+    console.log('newsApiURL14to7', newsApiURL14to7);
+    console.log('newsApi7toNow', newsApiURL7toNow);
     let articles14to7 = await newsAPI(newsApiURL14to7);
     articles14to7 = articles14to7.reverse(); //puts the articles in chronological order
     // console.log(articles14to7)
@@ -123,7 +125,7 @@ function drawChart (jsonData) {
     var data = jsonData;
     console.log(data);
     var chart = new dimple.chart(svg, data);
-    chart.addCategoryAxis("x", "Date");
+    chart.addCategoryAxis("x", "date");
     chart.addMeasureAxis("y", "HeadlineCount");
     chart.addSeries(null, dimple.plot.scatterplot);
     chart.draw();
@@ -146,7 +148,7 @@ var gTenYearsAgo = moment().subtract(365*10, 'days').format('YYYY-MM-DD') + 'T00
 
 //fetching from gNewsAPI, obtain array of article objects to extract dates and headlines/data from
 async function gNewsAPI (url) {
-    // console.log(url)
+    console.log(url)
     const response = await fetch(url);
     const data_gNewsAPI = await response.json();
     console.log('Total results: ', data_gNewsAPI['totalArticles']);
@@ -170,6 +172,7 @@ function addGArticleData (article) { //creates elements to add article details
     var contentEl = document.createElement('p');
     var urlEl = document.createElement('a');
     var imgEl = document.createElement('img');
+    var brEl = document.createElement('br');
     
     titleEl.textContent = 'Title: '+ article['title'];
     contentEl.textContent = 'Description: ' + article['description'];
@@ -180,6 +183,7 @@ function addGArticleData (article) { //creates elements to add article details
     parentEl.appendChild(titleEl);
     parentEl.appendChild(contentEl);
     parentEl.appendChild(urlEl);
+    parentEl.appendChild(brEl);
     parentEl.appendChild(imgEl);
 }
 
@@ -200,13 +204,28 @@ function compileSearch () { //runs when user clicks search
 
 }
 
+function addPlus (input) {
+    tempInputSplit = input.split(" ");
+    for (i=0; i< tempInputSplit.length-1; i++) {
+        tempInputSplit[i] = tempInputSplit[i].concat('', '+');
+    }
+    finalInput = tempInputSplit.join("");
+    return finalInput
+}
+
 /**********EVENT LISTENERS*************************
  * Event listeners for clicking the search, view results, go back, search history, and clear history
  * Functions: None
  */
 document.getElementById("search-btn").addEventListener('click', function () { //clicks search button
     console.log('submit button!');
-    userInput = document.getElementById("search-input").value;
+    searchInput = document.getElementById("search-input").value;
+    console.log('searching for..', searchInput);
+    userInput = addPlus(searchInput);
+    // userInput = wordInput.split(' ');
+    // for (i=0; i < userInput.length-1; i++) {
+    //     userInput[i].concat('+')
+    // }
     console.log(userInput);
     compileSearch();
 })
