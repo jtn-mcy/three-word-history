@@ -44,3 +44,15 @@
     
 }
   
+.navbar {
+    height: 100%;
+}
+
+.navbar-item img {
+    max-height: 100px;
+    max-width: 400px;
+}
+
+.navbar-brand {
+    height: 100%;
+}
