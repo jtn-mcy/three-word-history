@@ -97,8 +97,8 @@ function addNewsApiData(arr) { //updates column with 5 search articles
 
     titleEl = document.createElement('p'); //create title
     titleEl.textContent = 'Recent articles about ' + userInput;
-    orderedListEl = document.createElement('ol') //create ordered list
-
+    orderedListEl = document.createElement('ol'); //create ordered list
+    orderedListEl.setAttribute('class', 'p-4');
     parentEl.appendChild(titleEl);
     parentEl.appendChild(orderedListEl);
 
@@ -106,7 +106,7 @@ function addNewsApiData(arr) { //updates column with 5 search articles
         var childEl = document.createElement('li');
         childEl.textContent = arr[i];
         childEl.setAttribute('class', 'title is-5 p-2');
-        orderedList.appendChild(childEl);
+        orderedListEl.appendChild(childEl);
     }
 }
 
