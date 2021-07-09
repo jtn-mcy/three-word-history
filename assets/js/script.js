@@ -10,7 +10,7 @@ var userInput = ''; //searchInput.value
 //Query parameters
 var nSortBy = '&sortby=' + 'publishedAt';
 var nPageSize = '&pageSize=' + 100;
-// var apiKey = '&apiKey=c7f77b1aac9843b6b86b9cf855938226'; //apikey
+var apiKey = '&apiKey=c7f77b1aac9843b6b86b9cf855938226'; //apikey
 var fromDate = '&from=';
 var toDate = '&to=';
 //date ranges
@@ -19,10 +19,8 @@ var sevenDaysAgo = moment().subtract(17, 'days').format("YYYY-MM-DD");
 var now = moment().format('YYY-MM-DD');
 //base API URL and concatenation with 
 var newsApiBase = 'https://newsapi.org/v2/everything?'; //base link to add from
-var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
-var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
-
-
+// var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
+// var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
 
 //fetching from newsAPI, obtain array of article objects to extract dates and headlines/data from
 async function newsAPI (url) {
@@ -36,11 +34,13 @@ async function newsAPI (url) {
     return data_newsAPI['articles']; //returns an array of articles
 }
 
-
 var arrDate = []; // dates
 var arrHeadlineCount = []; //headlines count per date
 
-async function obtainArrays () { //will combine the two article arrays over a span of 2 weeks and separate 
+async function obtainArrays () { //will combine the two article arrays over a span of 2 weeks and separate
+    console.log('line 41: ', userInput)
+    var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
+    var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey); 
     let articles14to7 = await newsAPI(newsApiURL14to7);
     articles14to7 = articles14to7.reverse(); //puts the articles in chronological order
     // console.log(articles14to7)
@@ -71,9 +71,10 @@ async function obtainArrays () { //will combine the two article arrays over a sp
     return [arrDate, arrHeadlineCount]
 }
 
-jsonArr = []
+
 async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
     let unjsonifiedArr = await obtainArrays()
+    jsonArr = [] //reset jsonArr
     console.log(unjsonifiedArr.length);
     firstUnjson = unjsonifiedArr[0];
     secondUnjson = unjsonifiedArr[1];
@@ -88,16 +89,24 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
     }
     var appendThis = drawChart(jsonArr);
     document.getElementsByTagName('body').appendChild(appendThis);
-
 }
 
 function addNewsApiData(arr) { //updates column with 5 search articles
     var parentEl = document.querySelector('#newsapi-article');
     removeAllChildren(parentEl) //clears column list
+
+    titleEl = document.createElement('p'); //create title
+    titleEl.textContent = 'Recent articles about ' + userInput;
+    orderedListEl = document.createElement('ol') //create ordered list
+
+    parentEl.appendChild(titleEl);
+    parentEl.appendChild(orderedListEl);
+
     for (i=0; i<arr.length; i++) {
-        var childEl = document.createElement('p');
+        var childEl = document.createElement('li');
         childEl.textContent = arr[i];
-        parentEl.appendChild(childEl);
+        childEl.setAttribute('class', 'title is-5 p-2');
+        orderedList.appendChild(childEl);
     }
 }
 
@@ -120,10 +129,6 @@ function drawChart (jsonData) {
     chart.draw();
 }
 
-
-// // console.log('newsApiURL14to7 ', newsApiURL14to7);
-// // console.log('newsApiURL7toNow ', newsApiURL7toNow)
-
 /******************GNEWS API********************************
  * Fetching data from gNEWS api to obtain a random article from long ago
  * Functions:gNewsAPI, grabGNewsArticle,
@@ -131,13 +136,13 @@ function drawChart (jsonData) {
  * Article object properties: content, description, image, publishedAt, source, title, url
  */
 
-// var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
+var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
 var gNewsApiBase = 'https://gnews.io/api/v4/search?';
 var gLanguage = '&lang=' + 'en'; //fromDate defined above
 var gSortBy = '&sortby=' + 'relevance'; //toDate defined above
 var gOneYearAgo = moment().subtract(365, 'days').format('YYYY-MM-DD') + 'T00:00:00Z';
 var gTenYearsAgo = moment().subtract(365*10, 'days').format('YYYY-MM-DD') + 'T00:00:00Z';
-var gNewsApiURL =  gNewsApiBase.concat('q=', userInput, gSortBy, gLanguage, fromDate, gTenYearsAgo, toDate, gOneYearAgo, apiKeyGNews);
+// var gNewsApiURL =  gNewsApiBase.concat('q=', userInput, gSortBy, gLanguage, fromDate, gTenYearsAgo, toDate, gOneYearAgo, apiKeyGNews);
 
 //fetching from gNewsAPI, obtain array of article objects to extract dates and headlines/data from
 async function gNewsAPI (url) {
@@ -150,6 +155,7 @@ async function gNewsAPI (url) {
 }
 
 async function grabGNewsArticle () { //obtain a random article from some year
+    var gNewsApiURL =  gNewsApiBase.concat('q=', userInput, gSortBy, gLanguage, fromDate, gTenYearsAgo, toDate, gOneYearAgo, apiKeyGNews);
     gArticleArr = await gNewsAPI(gNewsApiURL);
     console.log(gArticleArr);
     gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
@@ -165,9 +171,9 @@ function addGArticleData (article) { //creates elements to add article details
     var urlEl = document.createElement('a');
     var imgEl = document.createElement('img');
     
-    titleEl.textContent = article['title'];
-    contentEl.textContent = article['description'];
-    urlEl.textContent = 'link to url';
+    titleEl.textContent = 'Title: '+ article['title'];
+    contentEl.textContent = 'Description: ' + article['description'];
+    urlEl.textContent = 'link to article';
     urlEl.setAttribute('href', article['url']);
     imgEl.setAttribute('src', article['image']);
 
@@ -192,19 +198,19 @@ function compileSearch () { //runs when user clicks search
     grabGNewsArticle(); //populates the #gnews-article column
     //add code that will update the graph.html
 
-
-
 }
 
 /**********EVENT LISTENERS*************************
  * Event listeners for clicking the search, view results, go back, search history, and clear history
  * Functions: None
  */
-document.getELementById("submit-input").addEventListener('click', function () { //clicks search button
+document.getElementById("search-btn").addEventListener('click', function () { //clicks search button
+    console.log('submit button!');
     userInput = document.getElementById("search-input").value;
+    console.log(userInput);
     compileSearch();
 })
-
+/*
 document.getElementById("view-results").addEventListener('click', function () { //clicks view results
     console.log('view results!');
     //document.location.replace('graph.html);
@@ -218,6 +224,7 @@ document.getElementById("").addEventListener('click', function () { //clicks go 
 document.getElementById("").addEventListener('click', function () { //clicks a search history button
     console.log('search history item!')
 })
+*/
 
 /* uncomment if we add a clear history button! A clearSearchHistory has been added (and commented out) in Local Storage section
 document.getElementById("").addEventListener('click', function () { //clicks a clear history button
