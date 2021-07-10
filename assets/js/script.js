@@ -3,7 +3,6 @@
  * functions: newsAPI, obtainArrays, jsonified Array, addNewsApiData
  * &from=YYYY-MM-DD &to=YYYY-MM-DD
  * &sortby=(relevancy, popularity, publishedAt)
- * id in html: newsapi-article
  */
 //Userinput from search form
 var userInput = ''; //searchInput.value
@@ -44,29 +43,38 @@ async function obtainArrays () { //will combine the two article arrays over a sp
     articles7to0 = articles7to0.reverse() //puts the articles in chronological order
     var combinedArticles = articles14to7.concat(articles7to0);
     console.log('Total amount of articles: ', combinedArticles.length); //tells us how many articles obtained total
-    for (var i=0; i<combinedArticles.length; i++) {
-        var indexHeadline = 0 //declare/reset indexHeadline every loop
-        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(0,10))) { //.substr(5,5) will grab the MM-DD standardized in the API object
-            //obtain index of arrDate[date]--it will match index of arrHeadlineCount
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
-            arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
-        } else {
-            arrDate.push(combinedArticles[i]['publishedAt'].substr(0,10))
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
-            arrHeadlineCount[indexHeadline] = 1 //sets index of array
+    if (combinedArticles.length === 0) {
+        var parentEl = document.querySelector('#newsapi-article');
+        removeAllChildren(parentEl) //clears column list
+        var titleEl = document.createElement('h4');
+        titleEl.textContent = 'No results found for ' + userInput + '! Try again'
+        parentEl.appendChild(titleEl);
+        return
+    } else {
+        for (var i=0; i<combinedArticles.length; i++) {
+            var indexHeadline = 0 //declare/reset indexHeadline every loop
+            if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(0,10))) { //.substr(5,5) will grab the MM-DD standardized in the API object
+                //obtain index of arrDate[date]--it will match index of arrHeadlineCount
+                indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
+                arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
+            } else {
+                arrDate.push(combinedArticles[i]['publishedAt'].substr(0,10))
+                indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
+                arrHeadlineCount[indexHeadline] = 1 //sets index of array
+            }
         }
-    }
-    var articleTitleArr = [] //declare a variable to obtain article titles
-    var articleURLArr = []
-    for (i=0; i<combinedArticles.length; i++) {
-        if (i === 5) {break} //only up to 5 articles to display
-        else {
-            articleTitleArr.push(combinedArticles[i]['title']);
-            articleURLArr.push(combinedArticles[i]['url'])
+        var articleTitleArr = [] //declare a variable to obtain article titles
+        var articleURLArr = []
+        for (i=0; i<combinedArticles.length; i++) {
+            if (i === 5) {break} //only up to 5 articles to display
+            else {
+                articleTitleArr.push(combinedArticles[i]['title']);
+                articleURLArr.push(combinedArticles[i]['url'])
+            }
         }
+        addNewsApiData(articleTitleArr, articleURLArr); //display article titles into column
+        return [arrDate, arrHeadlineCount]
     }
-    addNewsApiData(articleTitleArr, articleURLArr); //display article titles into column
-    return [arrDate, arrHeadlineCount]
 }
 
 async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
@@ -76,9 +84,6 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
     console.log(unjsonifiedArr.length);
     firstUnjson = unjsonifiedArr[0];
     secondUnjson = unjsonifiedArr[1];
-    // console.log('unjsonifiedArr', unjsonifiedArr)
-    // console.log('firstArr', unjsonifiedArr[0][0])
-    // console.log('secondArr', unjsonifiedArr[1])
     for (i=0; i<unjsonifiedArr[0].length; i++) {
         obj = {};
         obj['time'] = firstUnjson[i];
@@ -114,8 +119,6 @@ function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search artic
         orderedListEl.appendChild(childEl);
     }
 }
-
-// jsonifiedArray();    
 
 /******************draw the graph********************************
  * Fetching data from jsonArr to obtain a graph to display in graph.html
@@ -160,9 +163,17 @@ async function gNewsAPI (url) {
 async function grabGNewsArticle () { //obtain a random article from some year
     var gNewsApiURL =  gNewsApiBase.concat('q=', userInput, gSortBy, gLanguage, fromDate, gTenYearsAgo, toDate, gOneYearAgo, apiKeyGNews);
     gArticleArr = await gNewsAPI(gNewsApiURL);
-    console.log(gArticleArr);
-    gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
-    addGArticleData(gArticle);
+    console.log('gArticleArr', gArticleArr);
+    if(gArticleArr.length === 0) {
+        parentEl = document.querySelector('#gnews-article');
+        removeAllChildren(parentEl);
+        var titleEl = document.createElement('h4');
+        titleEl.textContent = 'No results found for ' + userInput + '! Try again'
+        parentEl.appendChild(titleEl);
+    } else {
+        gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
+        addGArticleData(gArticle);
+    }
 }
 
 function addGArticleData (article) { //creates elements to add article details
@@ -192,16 +203,10 @@ function addGArticleData (article) { //creates elements to add article details
     parentEl.appendChild(imgEl); //add image
 }
 
-function removeAllChildren(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
 /*****************COMPILESEARCH*************************
  *  Compiling all functions to populate the index and graph htmls
  *  Functions: compileSearch
  */
-
 function compileSearch () { //runs when user clicks search
     jsonObject = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
     grabGNewsArticle(); //populates the #gnews-article column
@@ -209,7 +214,17 @@ function compileSearch () { //runs when user clicks search
 
 }
 
-function addPlus (input) {
+function searchHistory (event) {
+    userInput = this.textContent;
+    console.log(userInput, event);
+    // compileSearch();
+}
+
+/**************MISC FUNCTIONS**************************** 
+ * Functions that help with modifying elements or variables
+ * Functions: addPlus, removeAllChildren
+ */
+function addPlus (input) { //allows for multiple search terms
     tempInputSplit = input.split(" ");
     for (i=0; i< tempInputSplit.length-1; i++) {
         tempInputSplit[i] = tempInputSplit[i].concat('', '+');
@@ -218,43 +233,30 @@ function addPlus (input) {
     return finalInput
 }
 
+function removeAllChildren(parent) { //removes child nodes in the parent element
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
 /**********EVENT LISTENERS*************************
  * Event listeners for clicking the search, view results, go back, search history, and clear history
  * Functions: None
  */
-document.getElementById("search-btn").addEventListener('click', function () { //clicks search button
+document.getElementById("submit-input").addEventListener('click', function () { //clicks search button
     console.log('submit button!');
     searchInput = document.getElementById("search-input").value;
     console.log('searching for..', searchInput);
     userInput = addPlus(searchInput);
-    // userInput = wordInput.split(' ');
-    // for (i=0; i < userInput.length-1; i++) {
-    //     userInput[i].concat('+')
-    // }
     console.log(userInput);
-    compileSearch();
-})
-/*
-document.getElementById("view-results").addEventListener('click', function () { //clicks view results
-    console.log('view results!');
-    //document.location.replace('graph.html);
+    updateSearchHistory(userInput);
+    // compileSearch();
 })
 
-document.getElementById("").addEventListener('click', function () { //clicks go back
-    console.log('go back!');
-    //document.location.replace('index.html');
-})
-
-document.getElementById("").addEventListener('click', function () { //clicks a search history button
-    console.log('search history item!')
-})
-*/
-
-/* uncomment if we add a clear history button! A clearSearchHistory has been added (and commented out) in Local Storage section
-document.getElementById("").addEventListener('click', function () { //clicks a clear history button
+document.getElementById("clear-search").addEventListener('click', function () { //clicks a clear history button
     console.log('clear search history!')
+    clearSearchHistory()
 })
-*/
 
 /**************LOCAL STORAGE***************************
  * Add a search history and set up local storage for the user
@@ -273,34 +275,42 @@ function init() {
 }
 
 function renderSearchHistory (userSearches) {
-    searchList = document.querySelector(''); //get parent of search results
+    searchList = document.querySelector('#search-history'); //get parent of search results
+    console.log(searchList);
     removeAllChildren(searchList); //remove searchlist children
+    pEl = document.createElement('p');
+    pEl.textContent = 'Search History';
+    searchList.appendChild(pEl)
+    console.log('userSearches', userSearches);
     for (var i=userSearches.length-1; i>=0; i--) {
-        newSearchTerm = document.createElement('li'); //create list element
+        newSearchTerm = document.createElement('button'); //create list element
+        newSearchTerm.setAttribute('class', 'button is-warning m-1'); //bulma styling
         newSearchTerm.textContent = userSearches[i]; //give list text from element i of gp1SearchHistory
-        searchList.appendChild(searchlist); //append the list element to searchList
+        newSearchTerm.addEventListener('click', searchHistory) //give it a event listener
+        searchList.appendChild(newSearchTerm); //append the list element to searchList
     }
 }
 
 function saveSearchHistory () {
+    console.log('saveSearchHistory commence..');
     localStorage.setItem('gp1SearchHistory', JSON.stringify(gp1SearchHistory)); //save current gp1SearchHistory array
 }
 
 function updateSearchHistory (userPrompt) { //update user search terms
+    console.log('updateSearchHistory commence..');
     var inputSearchItem = userPrompt.trim();
+    console.log('inputSearchItem', inputSearchItem);
     gp1SearchHistory.push(inputSearchItem);
+    console.log('gp1SearchHistory', gp1SearchHistory)
     saveSearchHistory();
-    renderSearchHistory();
+    renderSearchHistory(gp1SearchHistory);
 }
 
-/*!uncomment if clear search history button is added!
 function clearSearchHistory () {
+    console.log('clearSearchHistory commence..');
     gp1SearchHistory = [];
     saveSearchHistory();
     renderSearchHistory(gp1SearchHistory);
- } */
+ } 
 
-
-//init() //initializes the page and renders the search history
-
-// gArticleEx = grabGNewsArticle()
+// init() //initializes the page and renders the search history
