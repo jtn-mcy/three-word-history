@@ -246,7 +246,7 @@ document.getElementById("submit-input").addEventListener('click', function () { 
     userInput = addPlus(searchInput);
     console.log(userInput);
     updateSearchHistory(userInput);
-    compileSearch();
+    // compileSearch();
 })
 /*
 document.getElementById("view-results").addEventListener('click', function () { //clicks view results
