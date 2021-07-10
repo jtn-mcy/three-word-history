@@ -44,29 +44,38 @@ async function obtainArrays () { //will combine the two article arrays over a sp
     articles7to0 = articles7to0.reverse() //puts the articles in chronological order
     var combinedArticles = articles14to7.concat(articles7to0);
     console.log('Total amount of articles: ', combinedArticles.length); //tells us how many articles obtained total
-    for (var i=0; i<combinedArticles.length; i++) {
-        var indexHeadline = 0 //declare/reset indexHeadline every loop
-        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(0,10))) { //.substr(5,5) will grab the MM-DD standardized in the API object
-            //obtain index of arrDate[date]--it will match index of arrHeadlineCount
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
-            arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
-        } else {
-            arrDate.push(combinedArticles[i]['publishedAt'].substr(0,10))
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
-            arrHeadlineCount[indexHeadline] = 1 //sets index of array
+    if (combinedArticles.length === 0) {
+        var parentEl = document.querySelector('#newsapi-article');
+        removeAllChildren(parentEl) //clears column list
+        var titleEl = document.createElement('h4');
+        titleEl.textContent = 'No results found for ' + userInput + '! Try again'
+        parentEl.appendChild(titleEl);
+        return
+    } else {
+        for (var i=0; i<combinedArticles.length; i++) {
+            var indexHeadline = 0 //declare/reset indexHeadline every loop
+            if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(0,10))) { //.substr(5,5) will grab the MM-DD standardized in the API object
+                //obtain index of arrDate[date]--it will match index of arrHeadlineCount
+                indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
+                arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
+            } else {
+                arrDate.push(combinedArticles[i]['publishedAt'].substr(0,10))
+                indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
+                arrHeadlineCount[indexHeadline] = 1 //sets index of array
+            }
         }
-    }
-    var articleTitleArr = [] //declare a variable to obtain article titles
-    var articleURLArr = []
-    for (i=0; i<combinedArticles.length; i++) {
-        if (i === 5) {break} //only up to 5 articles to display
-        else {
-            articleTitleArr.push(combinedArticles[i]['title']);
-            articleURLArr.push(combinedArticles[i]['url'])
+        var articleTitleArr = [] //declare a variable to obtain article titles
+        var articleURLArr = []
+        for (i=0; i<combinedArticles.length; i++) {
+            if (i === 5) {break} //only up to 5 articles to display
+            else {
+                articleTitleArr.push(combinedArticles[i]['title']);
+                articleURLArr.push(combinedArticles[i]['url'])
+            }
         }
+        addNewsApiData(articleTitleArr, articleURLArr); //display article titles into column
+        return [arrDate, arrHeadlineCount]
     }
-    addNewsApiData(articleTitleArr, articleURLArr); //display article titles into column
-    return [arrDate, arrHeadlineCount]
 }
 
 async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
@@ -160,9 +169,17 @@ async function gNewsAPI (url) {
 async function grabGNewsArticle () { //obtain a random article from some year
     var gNewsApiURL =  gNewsApiBase.concat('q=', userInput, gSortBy, gLanguage, fromDate, gTenYearsAgo, toDate, gOneYearAgo, apiKeyGNews);
     gArticleArr = await gNewsAPI(gNewsApiURL);
-    console.log(gArticleArr);
-    gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
-    addGArticleData(gArticle);
+    console.log('gArticleArr', gArticleArr);
+    if(gArticleArr.length === 0) {
+        parentEl = document.querySelector('#gnews-article');
+        removeAllChildren(parentEl);
+        var titleEl = document.createElement('h4');
+        titleEl.textContent = 'No results found for ' + userInput + '! Try again'
+        parentEl.appendChild(titleEl);
+    } else {
+        gArticle = gArticleArr[Math.floor(Math.random()*gArticleArr.length)];
+        addGArticleData(gArticle);
+    }
 }
 
 function addGArticleData (article) { //creates elements to add article details
@@ -229,7 +246,7 @@ document.getElementById("submit-input").addEventListener('click', function () { 
     userInput = addPlus(searchInput);
     console.log(userInput);
     updateSearchHistory(userInput);
-    // compileSearch();
+    compileSearch();
 })
 /*
 document.getElementById("view-results").addEventListener('click', function () { //clicks view results
@@ -245,7 +262,8 @@ document.getElementById("").addEventListener('click', function () { //clicks go 
 
 function searchHistory (event) {
     userInput = this.textContent;
-    compileSearch();
+    console.log(userInput, event);
+    // compileSearch();
 }
 
 
@@ -280,8 +298,8 @@ function renderSearchHistory (userSearches) {
     searchList.appendChild(pEl)
     console.log('userSearches', userSearches);
     for (var i=userSearches.length-1; i>=0; i--) {
-        newSearchTerm = document.createElement('p'); //create list element
-        newSearchTerm.setAttribute('class', 'search-history-term');
+        newSearchTerm = document.createElement('button'); //create list element
+        newSearchTerm.setAttribute('class', 'button is-warning m-1'); //bulma styling
         newSearchTerm.textContent = userSearches[i]; //give list text from element i of gp1SearchHistory
         newSearchTerm.addEventListener('click', searchHistory) //give it a event listener
         searchList.appendChild(newSearchTerm); //append the list element to searchList
