@@ -1,8 +1,6 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 
-* {
-    flex: auto;
-}
+
 .notification {
     text-align: center;
     font-size: larger;
@@ -25,7 +23,7 @@
     border: none;
     font-size: 1em;
     margin: 0;
-    padding-left: 80px;
+    padding: 10px 40px;
     text-align: center;
     width: 100%;
 }
