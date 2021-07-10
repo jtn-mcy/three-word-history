@@ -304,3 +304,20 @@ function clearSearchHistory () {
 //init() //initializes the page and renders the search history
 
 // gArticleEx = grabGNewsArticle()
+
+
+// modal button and background listeners
+    var resultsButton = document.querySelector('#view-results');
+    var modalBg = document.querySelector('.modal-background');
+    var modal = document.querySelector('.modal');
+
+    // Results Button listener
+    resultsButton.addEventListener(click, function() {
+        modal.classList.add('is-active');
+    }
+    );
+
+    // Background listener to cancel modal
+    modalBg.addEventListener('click', function() {
+        modal.classList.remove('is-active');
+    });
