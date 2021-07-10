@@ -68,6 +68,9 @@
                     <p class="title is-3">Information Area</p>
                     <p>Here is how this works. We have a search area to enter keywords into. Enter keywords there and
                         hit the Search button.</p>
+                    <div id="search-history">
+                        <p>Search History</p>
+                    </div>
                 </div>
                 <div class="column is-9 has-background-light p-2" id="display-area">
                     <!-- Search and results main area on top-->
@@ -82,8 +85,8 @@
                         <div class="field is-grouped">
                             <div class="control">
                                 <button class="button is-link" id="submit-input">Submit</button>
-                                <button class="button" id="view-results">View results</button>
-
+                                <button class="button" id="view-results">View Graph</button>
+                                <button class="button" id="clear-search">Clear History</button>
                             </div>
                         </div>
                     </div>
@@ -120,7 +123,7 @@
     <!-- modal Graph Window -->
     <div class="modal">
         <div class="modal-background"></div>
-        <div class="modal-content has-background-white py-3 px-3">
+        <div class="modal-content has-background-white py-3 px-3" id="graph-modal">
             <h3 class="title mb-5" id="graph-modal">Graph</h3>
         </div>
     </div>
