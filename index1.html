@@ -9,8 +9,6 @@
     <title>Three Word History</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/lib/d3.v4.min.js"></script>
-    <script src="assets/lib/dimple.v2.3.0.min.js"></script>
 </head>
 
 <body>
@@ -22,7 +20,7 @@
     </div>
 
     <!-- Navigation bar -->
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item">
       <img src="assets/TWHlogo.png" width="80" height="128">
@@ -52,46 +50,74 @@
 
     <!-- CRISTINA: Top Portion -->
     <!-- JAMES: Bottom Portion -->
+
+    <!-- App container -->
     <section class="section p-1">
         <div class="container has-background-warning p-1">
-            <p class="title is-1">Main Area</p>
+
+            <!-- Main display area below header -->
+            <p class="title is-2">Main Area</p>
             <div class="columns p-2">
                 <div class="column is-3 has-background-light p-2" id="info-area">
+
+                    <!-- Information display area -->
                     <p class="title is-3">Information Area</p>
-                    <p>Here is how this works. We have a search area to enter keywords into. Enter keywords there and
-                        hit the Search button.</p>
+                    <p class="title is-4">Enter a few searchwords in the text field and hit the Submit button to instantlyquery two live API's.</p>
+                    <p class="title is-5"> Sources: GNewsAPI and newsAPI</p>
+
+                    <!-- Search History display area (bottom of Information Area)-->
+                    <div id="search-history">
+                        <p>Search History</p>
+                    </div>
                 </div>
                 <div class="column is-9 has-background-light p-2" id="display-area">
-                    <!-- Search and results main area on top-->
+
+                    <!-- Search and buttons (Main Area on top)-->
                     <div class="container p-2">
                         <p class="title is-3">Search Input Area</p>
+
+                        <!-- Search text input field -->
                         <div class="field">
                             <label class="label">What is your searchword?</label>
                             <div class="control">
                                 <input class="input" type="text" placeholder="Enter Searchword" id="search-input">
                             </div>
                         </div>
+
+                        <!-- Buttons area: Submit, View Graph, and Clear History -->
                         <div class="field is-grouped">
                             <div class="control">
-                                <button id='search-btn' class="button is-link">Submit</button>
+                                <button class="button is-link is-rounded" id="submit-input">Submit</button>
+                                <button class="button is-primary is-rounded" id="view-results">View Graph</button>
+                                <button class="button is-rounded is-white " id="clear-search">Clear History</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Output display columns from search results -->
+                    <!-- Output display columns from two query results (Main Area on bottom)-->
                     <div class="container has-background-primary p-2">
-                        <p class="title is-4">Output Columns</p>
+                        <p class="title is-4">Results</p>
+                        <p class="title is-5 subtitle">Oldest NewsAPI : Newest GNewsAPI</p>
                         <div class="columns p-2">
+
+                            <!-- NewsAPI display Area (Left column) -->
                             <div class="column is-6 has-background-success p-2" id="newsapi-article">
                                 <p>NewsAPI display</p>
                                 <p class="title is-5 p-2">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae tempora, vel doloremque ipsum sapiente impedit soluta inventore quam eius asperiores ad sequi ea nulla ducimus, qui incidunt! Aliquid, totam accusamus!
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae tempora, vel
+                                    doloremque ipsum sapiente impedit soluta inventore quam eius asperiores ad sequi ea
+                                    nulla ducimus, qui incidunt! Aliquid, totam accusamus!
                                 </p>
                             </div>
+
+                            <!-- GNewsAPI display Area (Right column) -->
                             <div class="column is-6 has-background-success p-2" id="gnews-article">
                                 <p class="title-is-3">GNews API display</p>
                                 <p class="title is-5 p-2">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi porro vero cupiditate incidunt dicta nulla voluptatem, debitis reprehenderit, vel asperiores necessitatibus laboriosam nisi! Assumenda quo suscipit, distinctio quasi asperiores pariatur!
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi porro vero
+                                    cupiditate incidunt dicta nulla voluptatem, debitis reprehenderit, vel asperiores
+                                    necessitatibus laboriosam nisi! Assumenda quo suscipit, distinctio quasi asperiores
+                                    pariatur!
                                 </p>
                             </div>
                         </div>
@@ -100,6 +126,35 @@
             </div>
         </div>
     </section>
+
+
+    <!-- modal Graph Window -->
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content has-background-white py-6 px-6" id="graph-modal">
+            <h3 class="title mb-5" id="graph-modal">Graph: Article Frequency over Time</h3>
+                <figure class="image is-4x3">
+                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="placholder image">
+                </figure>
+        </div>
+    </div>
+
+    <!-- GOES INTO JS - modal listeners -->
+    <script>
+        var resultsButton = document.querySelector('#view-results');
+        var modalBg = document.querySelector('.modal-background');
+        var modal = document.querySelector('.modal');
+
+        // Results Button listener
+        resultsButton.addEventListener('click', () => {
+            modal.classList.add('is-active');
+        });
+
+        // Background listener to cancel modal
+        modalBg.addEventListener('click', () => {
+            modal.classList.remove('is-active');
+        });
+    </script>
 
     <!--moment JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
