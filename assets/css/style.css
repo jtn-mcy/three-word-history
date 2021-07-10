@@ -44,15 +44,11 @@
     
 }
   
-.navbar {
-    height: 100%;
+.scatter-plot {
+    margin-top: 100px; 
+    margin-left: 200px;
 }
 
-.navbar-item img {
-    max-height: 100px;
-    max-width: 400px;
-}
-
-.navbar-brand {
-    height: 100%;
+.dimple-custom-tooltip-box {
+    fill: red !important;
 }

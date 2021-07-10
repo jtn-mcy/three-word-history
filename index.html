@@ -30,77 +30,42 @@
   
 
   <div class="main">
-    ...
+    <div id="chartContainer" class="scatter-plot">
+      <script type="text/javascript">
+        var svg = dimple.newSvg("#chartContainer", 1534, 1040);
+          d3.tsv("example_data.tsv", function (data) {
+              /*
+                  time format: year-day-month
+  
+                 var data = [
+                      {time: '2012-04-20', freq: 5, news: 'cnbc', social_media: 'facebook'},
+                      {time: '2011-02-10', freq: 3, news: 'fox', social_media: 'twitter'},
+                      {time: '2010-01-05', freq: 8, news: 'cnn', social_media: 'myspace'},
+                  ];
+              */
+          var data = [
+              {time: '2012-04-20', freq: 5, interest: 'Interest'},
+              {time: '2011-02-10', freq: 3, interest: 'Interest'},
+              {time: '2010-01-05', freq: 8, interest: 'Interest' },
+          ];
+            var myChart = new dimple.chart(svg, data);
+            myChart.setBounds(60, 30, 1300, 858) //YYYY-MM-DDTHH:MM:SS
+            myChart.addTimeAxis("x", "time","%Y-%m-%d","%d"); // input format: %Y-%m-%d, output format: %m
+            myChart.addMeasureAxis("y", "freq");
+            myChart.addSeries(["interest"], dimple.plot.bubble);
+            myChart.addLegend(200, 10, 936, 52, "right");
+            myChart.draw();
+          });
+      </script>
+    </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- CRISTINA: Top Portion -->
     <!-- JAMES: Bottom Portion -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <!--moment JS-->
     <script src='./assets/js/script.js'></script>
     <!--utilized JS-->
+
 </body>
 
 </html>
