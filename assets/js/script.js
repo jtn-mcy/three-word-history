@@ -222,17 +222,14 @@ function addPlus (input) {
  * Event listeners for clicking the search, view results, go back, search history, and clear history
  * Functions: None
  */
-document.getElementById("search-btn").addEventListener('click', function () { //clicks search button
+document.getElementById("submit-input").addEventListener('click', function () { //clicks search button
     console.log('submit button!');
     searchInput = document.getElementById("search-input").value;
     console.log('searching for..', searchInput);
     userInput = addPlus(searchInput);
-    // userInput = wordInput.split(' ');
-    // for (i=0; i < userInput.length-1; i++) {
-    //     userInput[i].concat('+')
-    // }
     console.log(userInput);
-    compileSearch();
+    updateSearchHistory(userInput);
+    // compileSearch();
 })
 /*
 document.getElementById("view-results").addEventListener('click', function () { //clicks view results
@@ -244,17 +241,19 @@ document.getElementById("").addEventListener('click', function () { //clicks go 
     console.log('go back!');
     //document.location.replace('index.html');
 })
-
-document.getElementById("").addEventListener('click', function () { //clicks a search history button
-    console.log('search history item!')
-})
 */
 
-/* uncomment if we add a clear history button! A clearSearchHistory has been added (and commented out) in Local Storage section
-document.getElementById("").addEventListener('click', function () { //clicks a clear history button
+function searchHistory (event) {
+    userInput = this.textContent;
+    compileSearch();
+}
+
+
+document.getElementById("clear-search").addEventListener('click', function () { //clicks a clear history button
     console.log('clear search history!')
+    clearSearchHistory()
 })
-*/
+
 
 /**************LOCAL STORAGE***************************
  * Add a search history and set up local storage for the user
@@ -273,34 +272,45 @@ function init() {
 }
 
 function renderSearchHistory (userSearches) {
-    searchList = document.querySelector(''); //get parent of search results
+    searchList = document.querySelector('#search-history'); //get parent of search results
+    console.log(searchList);
     removeAllChildren(searchList); //remove searchlist children
+    pEl = document.createElement('p');
+    pEl.textContent = 'Search History';
+    searchList.appendChild(pEl)
+    console.log('userSearches', userSearches);
     for (var i=userSearches.length-1; i>=0; i--) {
-        newSearchTerm = document.createElement('li'); //create list element
+        newSearchTerm = document.createElement('p'); //create list element
+        newSearchTerm.setAttribute('class', 'search-history-term');
         newSearchTerm.textContent = userSearches[i]; //give list text from element i of gp1SearchHistory
-        searchList.appendChild(searchlist); //append the list element to searchList
+        newSearchTerm.addEventListener('click', searchHistory) //give it a event listener
+        searchList.appendChild(newSearchTerm); //append the list element to searchList
     }
 }
 
 function saveSearchHistory () {
+    console.log('saveSearchHistory commence..');
     localStorage.setItem('gp1SearchHistory', JSON.stringify(gp1SearchHistory)); //save current gp1SearchHistory array
 }
 
 function updateSearchHistory (userPrompt) { //update user search terms
+    console.log('updateSearchHistory commence..');
     var inputSearchItem = userPrompt.trim();
+    console.log('inputSearchItem', inputSearchItem);
     gp1SearchHistory.push(inputSearchItem);
+    console.log('gp1SearchHistory', gp1SearchHistory)
     saveSearchHistory();
-    renderSearchHistory();
+    renderSearchHistory(gp1SearchHistory);
 }
 
-/*!uncomment if clear search history button is added!
 function clearSearchHistory () {
+    console.log('clearSearchHistory commence..');
     gp1SearchHistory = [];
     saveSearchHistory();
     renderSearchHistory(gp1SearchHistory);
- } */
+ } 
 
 
-//init() //initializes the page and renders the search history
+init() //initializes the page and renders the search history
 
 // gArticleEx = grabGNewsArticle()
