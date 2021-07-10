@@ -84,9 +84,6 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
     console.log(unjsonifiedArr.length);
     firstUnjson = unjsonifiedArr[0];
     secondUnjson = unjsonifiedArr[1];
-    // console.log('unjsonifiedArr', unjsonifiedArr)
-    // console.log('firstArr', unjsonifiedArr[0][0])
-    // console.log('secondArr', unjsonifiedArr[1])
     for (i=0; i<unjsonifiedArr[0].length; i++) {
         obj = {};
         obj['time'] = firstUnjson[i];
@@ -206,8 +203,6 @@ function addGArticleData (article) { //creates elements to add article details
     parentEl.appendChild(imgEl); //add image
 }
 
-
-
 /*****************COMPILESEARCH*************************
  *  Compiling all functions to populate the index and graph htmls
  *  Functions: compileSearch
@@ -229,7 +224,6 @@ function searchHistory (event) {
  * Functions that help with modifying elements or variables
  * Functions: addPlus, removeAllChildren
  */
-
 function addPlus (input) { //allows for multiple search terms
     tempInputSplit = input.split(" ");
     for (i=0; i< tempInputSplit.length-1; i++) {
@@ -256,20 +250,8 @@ document.getElementById("submit-input").addEventListener('click', function () { 
     userInput = addPlus(searchInput);
     console.log(userInput);
     updateSearchHistory(userInput);
-    compileSearch();
+    // compileSearch();
 })
-
-/*
-document.getElementById("view-results").addEventListener('click', function () { //clicks view results
-    console.log('view results!');
-    //document.location.replace('graph.html);
-})
-
-document.getElementById("").addEventListener('click', function () { //clicks go back
-    console.log('go back!');
-    //document.location.replace('index.html');
-})
-*/
 
 document.getElementById("clear-search").addEventListener('click', function () { //clicks a clear history button
     console.log('clear search history!')
@@ -331,4 +313,4 @@ function clearSearchHistory () {
     renderSearchHistory(gp1SearchHistory);
  } 
 
-init() //initializes the page and renders the search history
+// init() //initializes the page and renders the search history
