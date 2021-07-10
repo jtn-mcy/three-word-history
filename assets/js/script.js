@@ -15,12 +15,10 @@ var fromDate = '&from=';
 var toDate = '&to=';
 //date ranges
 var fourteenDaysAgo = moment().subtract(14, 'days').format("YYYY-MM-DD");
-var sevenDaysAgo = moment().subtract(17, 'days').format("YYYY-MM-DD");
+var sevenDaysAgo = moment().subtract(7, 'days').format("YYYY-MM-DD");
 var now = moment().format('YYY-MM-DD');
 //base API URL and concatenation with 
 var newsApiBase = 'https://newsapi.org/v2/everything?'; //base link to add from
-// var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
-// var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
 
 //fetching from newsAPI, obtain array of article objects to extract dates and headlines/data from
 async function newsAPI (url) {
@@ -38,45 +36,43 @@ var arrDate = []; // dates
 var arrHeadlineCount = []; //headlines count per date
 
 async function obtainArrays () { //will combine the two article arrays over a span of 2 weeks and separate
-    console.log('line 41: ', userInput)
     var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
     var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
-    console.log('newsApiURL14to7', newsApiURL14to7);
-    console.log('newsApi7toNow', newsApiURL7toNow);
     let articles14to7 = await newsAPI(newsApiURL14to7);
     articles14to7 = articles14to7.reverse(); //puts the articles in chronological order
-    // console.log(articles14to7)
     let articles7to0 = await newsAPI(newsApiURL7toNow);
     articles7to0 = articles7to0.reverse() //puts the articles in chronological order
     var combinedArticles = articles14to7.concat(articles7to0);
     console.log('Total amount of articles: ', combinedArticles.length); //tells us how many articles obtained total
-    for (i=0; i<combinedArticles.length; i++) {
-        var indexHeadline = 0 //declare/rest indexHeadline every loop
-        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(5,5))) { //.substr(5,10) will grab the MM-DD standardized in the API object
+    for (var i=0; i<combinedArticles.length; i++) {
+        var indexHeadline = 0 //declare/reset indexHeadline every loop
+        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(0,10))) { //.substr(5,5) will grab the MM-DD standardized in the API object
             //obtain index of arrDate[date]--it will match index of arrHeadlineCount
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(5,5));
+            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
             arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
         } else {
-            arrDate.push(combinedArticles[i]['publishedAt'].substr(5,5))
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(5,5));
+            arrDate.push(combinedArticles[i]['publishedAt'].substr(0,10))
+            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
             arrHeadlineCount[indexHeadline] = 1 //sets index of array
         }
     }
     var articleTitleArr = [] //declare a variable to obtain article titles
+    var articleURLArr = []
     for (i=0; i<combinedArticles.length; i++) {
         if (i === 5) {break} //only up to 5 articles to display
         else {
             articleTitleArr.push(combinedArticles[i]['title']);
+            articleURLArr.push(combinedArticles[i]['url'])
         }
     }
-    addNewsApiData(articleTitleArr); //display article titles into column
+    addNewsApiData(articleTitleArr, articleURLArr); //display article titles into column
     return [arrDate, arrHeadlineCount]
 }
 
-
 async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
     let unjsonifiedArr = await obtainArrays()
-    jsonArr = [] //reset jsonArr
+    console.log(unjsonifiedArr);
+    var jsonArr = [] //reset jsonArr
     console.log(unjsonifiedArr.length);
     firstUnjson = unjsonifiedArr[0];
     secondUnjson = unjsonifiedArr[1];
@@ -85,15 +81,16 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
     // console.log('secondArr', unjsonifiedArr[1])
     for (i=0; i<unjsonifiedArr[0].length; i++) {
         obj = {};
-        obj['date'] = firstUnjson[i];
-        obj['HeadlineCount'] = secondUnjson[i]
+        obj['time'] = firstUnjson[i];
+        obj['freq'] = secondUnjson[i];
+        obj['interest'] = 'Interest';
         jsonArr.push(obj);
     }
     var appendThis = drawChart(jsonArr);
-    document.getElementsByTagName('body').appendChild(appendThis);
+    document.getElementsByTagName('body').appendChild(appendThis); //need to fix this! error in console append child not a function
 }
 
-function addNewsApiData(arr) { //updates column with 5 search articles
+function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search articles
     var parentEl = document.querySelector('#newsapi-article');
     removeAllChildren(parentEl) //clears column list
 
@@ -104,21 +101,26 @@ function addNewsApiData(arr) { //updates column with 5 search articles
     parentEl.appendChild(titleEl);
     parentEl.appendChild(orderedListEl);
 
-    for (i=0; i<arr.length; i++) {
+    for (i=0; i<arrTitle.length; i++) {
         var childEl = document.createElement('li');
-        childEl.textContent = arr[i];
+        // childEl.textContent = arrTitle[i];
         childEl.setAttribute('class', 'title is-5 p-2');
+
+        var aEl = document.createElement('a');
+        aEl.setAttribute('href', arrURL[i]);
+        aEl.innerHTML = arrTitle[i];
+
+        childEl.appendChild(aEl);
         orderedListEl.appendChild(childEl);
     }
 }
 
 // jsonifiedArray();    
 
-
 /******************draw the graph********************************
  * Fetching data from jsonArr to obtain a graph to display in graph.html
  * Functions: drawchart
- * Adopted vars: jsonArr (from NEWSAPI)
+ * Adopted vars: jsonArr (values from NEWSAPI)
  */
 function drawChart (jsonData) {
     var svg = dimple.newSvg("body", 800, 600);
@@ -137,7 +139,6 @@ function drawChart (jsonData) {
  * Adopted vars: userInput (from NEWSAPI)
  * Article object properties: content, description, image, publishedAt, source, title, url
  */
-
 var apiKeyGNews = '&token=5cee1145337d4bc87079fa32cac6a057';
 var gNewsApiBase = 'https://gnews.io/api/v4/search?';
 var gLanguage = '&lang=' + 'en'; //fromDate defined above
@@ -170,21 +171,25 @@ function addGArticleData (article) { //creates elements to add article details
 
     var titleEl = document.createElement('h4');
     var contentEl = document.createElement('p');
+    var publishEl = document.createElement('p')
     var urlEl = document.createElement('a');
     var imgEl = document.createElement('img');
     var brEl = document.createElement('br');
+
     
     titleEl.textContent = 'Title: '+ article['title'];
-    contentEl.textContent = 'Description: ' + article['description'];
+    contentEl.textContent = 'Description: ' + article['description'] + ' ... [continued in article]\n';
+    publishEl.textContent = 'Publish date: ' + article['publishedAt'].substr(0,10) + '\n';
     urlEl.textContent = 'link to article';
     urlEl.setAttribute('href', article['url']);
     imgEl.setAttribute('src', article['image']);
 
-    parentEl.appendChild(titleEl);
-    parentEl.appendChild(contentEl);
-    parentEl.appendChild(urlEl);
-    parentEl.appendChild(brEl);
-    parentEl.appendChild(imgEl);
+    parentEl.appendChild(titleEl); //add title
+    parentEl.appendChild(contentEl); //add description
+    parentEl.appendChild(publishEl);
+    parentEl.appendChild(urlEl); //add url
+    parentEl.appendChild(brEl); //add break
+    parentEl.appendChild(imgEl); //add image
 }
 
 function removeAllChildren(parent) {
@@ -198,7 +203,7 @@ function removeAllChildren(parent) {
  */
 
 function compileSearch () { //runs when user clicks search
-    jsonData = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
+    jsonObject = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
     grabGNewsArticle(); //populates the #gnews-article column
     //add code that will update the graph.html
 
