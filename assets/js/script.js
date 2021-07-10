@@ -3,7 +3,6 @@
  * functions: newsAPI, obtainArrays, jsonified Array, addNewsApiData
  * &from=YYYY-MM-DD &to=YYYY-MM-DD
  * &sortby=(relevancy, popularity, publishedAt)
- * id in html: newsapi-article
  */
 //Userinput from search form
 var userInput = ''; //searchInput.value
@@ -124,8 +123,6 @@ function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search artic
     }
 }
 
-// jsonifiedArray();    
-
 /******************draw the graph********************************
  * Fetching data from jsonArr to obtain a graph to display in graph.html
  * Functions: drawchart
@@ -209,16 +206,12 @@ function addGArticleData (article) { //creates elements to add article details
     parentEl.appendChild(imgEl); //add image
 }
 
-function removeAllChildren(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
+
+
 /*****************COMPILESEARCH*************************
  *  Compiling all functions to populate the index and graph htmls
  *  Functions: compileSearch
  */
-
 function compileSearch () { //runs when user clicks search
     jsonObject = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
     grabGNewsArticle(); //populates the #gnews-article column
@@ -226,13 +219,30 @@ function compileSearch () { //runs when user clicks search
 
 }
 
-function addPlus (input) {
+function searchHistory (event) {
+    userInput = this.textContent;
+    console.log(userInput, event);
+    // compileSearch();
+}
+
+/**************MISC FUNCTIONS**************************** 
+ * Functions that help with modifying elements or variables
+ * Functions: addPlus, removeAllChildren
+ */
+
+function addPlus (input) { //allows for multiple search terms
     tempInputSplit = input.split(" ");
     for (i=0; i< tempInputSplit.length-1; i++) {
         tempInputSplit[i] = tempInputSplit[i].concat('', '+');
     }
     finalInput = tempInputSplit.join("");
     return finalInput
+}
+
+function removeAllChildren(parent) { //removes child nodes in the parent element
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }
 
 /**********EVENT LISTENERS*************************
@@ -246,8 +256,9 @@ document.getElementById("submit-input").addEventListener('click', function () { 
     userInput = addPlus(searchInput);
     console.log(userInput);
     updateSearchHistory(userInput);
-    // compileSearch();
+    compileSearch();
 })
+
 /*
 document.getElementById("view-results").addEventListener('click', function () { //clicks view results
     console.log('view results!');
@@ -260,18 +271,10 @@ document.getElementById("").addEventListener('click', function () { //clicks go 
 })
 */
 
-function searchHistory (event) {
-    userInput = this.textContent;
-    console.log(userInput, event);
-    // compileSearch();
-}
-
-
 document.getElementById("clear-search").addEventListener('click', function () { //clicks a clear history button
     console.log('clear search history!')
     clearSearchHistory()
 })
-
 
 /**************LOCAL STORAGE***************************
  * Add a search history and set up local storage for the user
@@ -328,7 +331,4 @@ function clearSearchHistory () {
     renderSearchHistory(gp1SearchHistory);
  } 
 
-
 init() //initializes the page and renders the search history
-
-// gArticleEx = grabGNewsArticle()
