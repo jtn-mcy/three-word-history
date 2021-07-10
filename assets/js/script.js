@@ -46,13 +46,13 @@ async function obtainArrays () { //will combine the two article arrays over a sp
     console.log('Total amount of articles: ', combinedArticles.length); //tells us how many articles obtained total
     for (var i=0; i<combinedArticles.length; i++) {
         var indexHeadline = 0 //declare/reset indexHeadline every loop
-        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(5,5))) { //.substr(5,5) will grab the MM-DD standardized in the API object
+        if (arrDate.includes(combinedArticles[i]['publishedAt'].substr(0,10))) { //.substr(5,5) will grab the MM-DD standardized in the API object
             //obtain index of arrDate[date]--it will match index of arrHeadlineCount
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(5,5));
+            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
             arrHeadlineCount[indexHeadline] += 1; //increments headlineCount at appropriate
         } else {
-            arrDate.push(combinedArticles[i]['publishedAt'].substr(5,5))
-            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(5,5));
+            arrDate.push(combinedArticles[i]['publishedAt'].substr(0,10))
+            indexHeadline = arrDate.indexOf(combinedArticles[i]['publishedAt'].substr(0,10));
             arrHeadlineCount[indexHeadline] = 1 //sets index of array
         }
     }
@@ -71,7 +71,8 @@ async function obtainArrays () { //will combine the two article arrays over a sp
 
 async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
     let unjsonifiedArr = await obtainArrays()
-    jsonArr = [] //reset jsonArr
+    console.log(unjsonifiedArr);
+    var jsonArr = [] //reset jsonArr
     console.log(unjsonifiedArr.length);
     firstUnjson = unjsonifiedArr[0];
     secondUnjson = unjsonifiedArr[1];
@@ -80,8 +81,9 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
     // console.log('secondArr', unjsonifiedArr[1])
     for (i=0; i<unjsonifiedArr[0].length; i++) {
         obj = {};
-        obj['date'] = firstUnjson[i];
-        obj['HeadlineCount'] = secondUnjson[i]
+        obj['time'] = firstUnjson[i];
+        obj['freq'] = secondUnjson[i];
+        obj['interest'] = 'Interest';
         jsonArr.push(obj);
     }
     var appendThis = drawChart(jsonArr);
@@ -202,9 +204,6 @@ function removeAllChildren(parent) {
 
 function compileSearch () { //runs when user clicks search
     jsonObject = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
-    jsonData = { //stick this into dimple
-        'dimple': jsonObject,
-    }
     grabGNewsArticle(); //populates the #gnews-article column
     //add code that will update the graph.html
 
