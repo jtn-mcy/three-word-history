@@ -13,6 +13,13 @@
     display: block;
     
 }
+
+.navbar {
+    border: none;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+}
   
 .scatter-plot {
     margin-top: 100px; 
