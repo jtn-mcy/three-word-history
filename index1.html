@@ -121,18 +121,18 @@
     <div class="modal">
         <div class="modal-background"></div>
         <div class="modal-content has-background-white py-3 px-3">
-            <h3 class="title mb-6" id="graph-modal">Graph</h3>
+            <h3 class="title mb-5" id="graph-modal">Graph</h3>
         </div>
     </div>
 
-        <!-- GOES INTO JS - modal button and background listeners
+        <!-- GOES INTO JS - modal listeners -->
         <script>
             var resultsButton = document.querySelector('#view-results');
             var modalBg = document.querySelector('.modal-background');
             var modal = document.querySelector('.modal');
 
             // Results Button listener
-            resultsButton.addEventListener(click,() => {
+            resultsButton.addEventListener('click', () => {
                 modal.classList.add('is-active');
             }
             );
@@ -141,7 +141,7 @@
             modalBg.addEventListener('click', () => {
                 modal.classList.remove('is-active');
             });
-        </script> -->
+        </script>
 
     <!--moment JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
