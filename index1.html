@@ -20,30 +20,31 @@
     </div>
 
     <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item">
-      <img src="assets/TWHlogo.png" width="80" height="128">
-    </a>
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="assets/TWHlogo.png" width="80" height="128">
+            </a>
 
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
 
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item">
-        Home
-      </a>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item">
+                    Home
+                </a>
 
-      <a class="navbar-item">
-        Placeholder
-      </a>
-    </div>
-  </div>
-</nav>
+                <a class="navbar-item">
+                    Placeholder
+                </a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Side navigation -->
     <!-- <div class="sidenav">
@@ -60,28 +61,41 @@
 
     <!-- CRISTINA: Top Portion -->
     <!-- JAMES: Bottom Portion -->
+
+    <!-- App container -->
     <section class="section p-1">
         <div class="container has-background-warning p-1">
+
+            <!-- Main display area below header -->
             <p class="title is-1">Main Area</p>
             <div class="columns p-2">
                 <div class="column is-3 has-background-light p-2" id="info-area">
+
+                    <!-- Information display area -->
                     <p class="title is-3">Information Area</p>
                     <p>Here is how this works. We have a search area to enter keywords into. Enter keywords there and
                         hit the Search button.</p>
+
+                    <!-- Search History display area (bottom of Information Area)-->
                     <div id="search-history">
                         <p>Search History</p>
                     </div>
                 </div>
                 <div class="column is-9 has-background-light p-2" id="display-area">
-                    <!-- Search and results main area on top-->
+
+                    <!-- Search and buttons (Main Area on top)-->
                     <div class="container p-2">
                         <p class="title is-3">Search Input Area</p>
+
+                        <!-- Search text input field -->
                         <div class="field">
                             <label class="label">What is your searchword?</label>
                             <div class="control">
                                 <input class="input" type="text" placeholder="Enter Searchword" id="search-input">
                             </div>
                         </div>
+
+                        <!-- Buttons area: Submit, View Graph, and Clear History -->
                         <div class="field is-grouped">
                             <div class="control">
                                 <button class="button is-link" id="submit-input">Submit</button>
@@ -91,10 +105,12 @@
                         </div>
                     </div>
 
-                    <!-- Output display columns from search results -->
+                    <!-- Output display columns from two query results (Main Area on bottom)-->
                     <div class="container has-background-primary p-2">
                         <p class="title is-4">Output Columns</p>
                         <div class="columns p-2">
+
+                            <!-- NewsAPI display Area (Left column) -->
                             <div class="column is-6 has-background-success p-2" id="newsapi-article">
                                 <p>NewsAPI display</p>
                                 <p class="title is-5 p-2">
@@ -103,6 +119,8 @@
                                     nulla ducimus, qui incidunt! Aliquid, totam accusamus!
                                 </p>
                             </div>
+
+                            <!-- GNewsAPI display Area (Right column) -->
                             <div class="column is-6 has-background-success p-2" id="gnews-article">
                                 <p class="title-is-3">GNews API display</p>
                                 <p class="title is-5 p-2">
@@ -128,23 +146,22 @@
         </div>
     </div>
 
-        <!-- GOES INTO JS - modal listeners -->
-        <script>
-            var resultsButton = document.querySelector('#view-results');
-            var modalBg = document.querySelector('.modal-background');
-            var modal = document.querySelector('.modal');
+    <!-- GOES INTO JS - modal listeners -->
+    <script>
+        var resultsButton = document.querySelector('#view-results');
+        var modalBg = document.querySelector('.modal-background');
+        var modal = document.querySelector('.modal');
 
-            // Results Button listener
-            resultsButton.addEventListener('click', () => {
-                modal.classList.add('is-active');
-            }
-            );
-        
-            // Background listener to cancel modal
-            modalBg.addEventListener('click', () => {
-                modal.classList.remove('is-active');
-            });
-        </script>
+        // Results Button listener
+        resultsButton.addEventListener('click', () => {
+            modal.classList.add('is-active');
+        });
+
+        // Background listener to cancel modal
+        modalBg.addEventListener('click', () => {
+            modal.classList.remove('is-active');
+        });
+    </script>
 
     <!--moment JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
