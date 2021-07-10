@@ -67,14 +67,14 @@
         <div class="container has-background-warning p-1">
 
             <!-- Main display area below header -->
-            <p class="title is-1">Main Area</p>
+            <p class="title is-2">Main Area</p>
             <div class="columns p-2">
                 <div class="column is-3 has-background-light p-2" id="info-area">
 
                     <!-- Information display area -->
                     <p class="title is-3">Information Area</p>
-                    <p>Here is how this works. We have a search area to enter keywords into. Enter keywords there and
-                        hit the Search button.</p>
+                    <p class="title is-4">Enter a few searchwords in the text field and hit the Submit button to instantlyquery two live API's.</p>
+                    <p class="title is-5"> Sources: GNewsAPI and newsAPI</p>
 
                     <!-- Search History display area (bottom of Information Area)-->
                     <div id="search-history">
@@ -98,16 +98,17 @@
                         <!-- Buttons area: Submit, View Graph, and Clear History -->
                         <div class="field is-grouped">
                             <div class="control">
-                                <button class="button is-link" id="submit-input">Submit</button>
-                                <button class="button" id="view-results">View Graph</button>
-                                <button class="button" id="clear-search">Clear History</button>
+                                <button class="button is-link is-rounded" id="submit-input">Submit</button>
+                                <button class="button is-primary is-rounded" id="view-results">View Graph</button>
+                                <button class="button is-rounded is-white " id="clear-search">Clear History</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Output display columns from two query results (Main Area on bottom)-->
                     <div class="container has-background-primary p-2">
-                        <p class="title is-4">Output Columns</p>
+                        <p class="title is-4">Results</p>
+                        <p class="title is-5 subtitle">Oldest NewsAPI : Newest GNewsAPI</p>
                         <div class="columns p-2">
 
                             <!-- NewsAPI display Area (Left column) -->
@@ -141,8 +142,11 @@
     <!-- modal Graph Window -->
     <div class="modal">
         <div class="modal-background"></div>
-        <div class="modal-content has-background-white py-3 px-3" id="graph-modal">
-            <h3 class="title mb-5" id="graph-modal">Graph</h3>
+        <div class="modal-content has-background-white py-6 px-6" id="graph-modal">
+            <h3 class="title mb-5" id="graph-modal">Graph: Article Frequency over Time</h3>
+                <figure class="image is-4x3">
+                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="placholder image">
+                </figure>
         </div>
     </div>
 
