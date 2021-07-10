@@ -201,7 +201,10 @@ function removeAllChildren(parent) {
  */
 
 function compileSearch () { //runs when user clicks search
-    jsonData = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
+    jsonObject = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
+    jsonData = { //stick this into dimple
+        'dimple': jsonObject,
+    }
     grabGNewsArticle(); //populates the #gnews-article column
     //add code that will update the graph.html
 
