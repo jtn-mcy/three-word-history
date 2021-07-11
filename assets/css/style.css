@@ -8,7 +8,6 @@
     color: white;
     font-family: monospace ;
     z-index: 1; 
-    padding: 25px 27px 25px 45px;
     text-decoration: none;
     font-size: 35px;
     left: 0;
@@ -30,7 +29,6 @@
     margin: 0;
     padding: 10px 100px;
     text-align: center;
-    width: 100%;
 }
 
 .scatter-plot {
