@@ -4,7 +4,7 @@
 .notification {
     text-align: center;
     font-size: larger;
-    background: lightblue;
+    background: rgb(61, 144, 227);
     color: white;
     font-family: monospace ;
     z-index: 1; 
@@ -20,15 +20,17 @@
 }
 
 .container {
-    background-color: lightblue;
+    background-color: rgb(61, 144, 227);
 }
 
 .navbar {
     border: none;
     font-size: 1em;
-    margin: 0;
-    padding: 10px 100px;
     text-align: center;
+}
+
+.navbar-item {
+    color: white;
 }
 
 .scatter-plot {
