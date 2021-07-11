@@ -111,7 +111,9 @@ function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search artic
         childEl.setAttribute('class', 'title is-5 p-2');
 
         var aEl = document.createElement('a');
-        aEl.setAttribute('href', arrURL[i]);
+        aEl.setAttribute('href', arrURL[i]); //
+        aEl.setAttribute('target', '_blank') //open page in new tab
+        aEl.setAttribute('style', 'text-decoration: none')
         aEl.innerHTML = arrTitle[i];
 
         childEl.appendChild(aEl);
@@ -254,11 +256,15 @@ function removeAllChildren(parent) { //removes child nodes in the parent element
 document.getElementById("submit-input").addEventListener('click', function () { //clicks search button
     console.log('submit button!');
     searchInput = document.getElementById("search-input").value;
-    console.log('searching for..', searchInput);
-    userInput = addPlus(searchInput);
-    console.log(userInput);
-    updateSearchHistory(userInput);
-    compileSearch();
+    if (searchInput === '') {
+        return
+    } else {
+        console.log('searching for..', searchInput);
+        userInput = addPlus(searchInput);
+        console.log(userInput);
+        updateSearchHistory(userInput);
+        compileSearch();
+    }
 })
 
 document.getElementById("clear-search").addEventListener('click', function () { //clicks a clear history button
