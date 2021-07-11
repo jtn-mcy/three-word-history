@@ -43,7 +43,7 @@
         Home
       </a>
 <!-- Info button on nav bar -->
-      <a class="navbar-item">
+      <a class="navbar-item" id="about-app">
         About This App
       </a>
     </div>
@@ -140,19 +140,41 @@
         </div>
     </div>
 
+    <!-- modal About Window -->
+    <div class="modalApp">
+        <div class="modal-background-app"></div>
+        <div class="modal-content has-background-white py-6 px-6" id="about-modal">
+            <h3 class="title mb-5">Graph: Article Frequency over Time</h3>
+        </div>
+    </div>
+
     <!-- GOES INTO JS - modal listeners -->
     <script>
         var resultsButton = document.querySelector('#view-results');
         var modalBg = document.querySelector('.modal-background');
         var modal = document.querySelector('.modal');
 
+        var aboutClick = document.querySelector('#about-app');
+        var modalBgApp = document.querySelector('.modal-background-app');
+        var modalApp = document.querySelector('.modalApp');
+
         // Results Button listener
         resultsButton.addEventListener('click', () => {
             modal.classList.add('is-active');
         });
 
+        // ABout Click listener
+        aboutClick.addEventListener('click', () => {
+            modalApp.classList.add('is-active');
+        });
+
         // Background listener to cancel modal
         modalBg.addEventListener('click', () => {
+            modal.classList.remove('is-active');
+        });
+
+        // Background listener to cancel modal
+        modalBgApp.addEventListener('click', () => {
             modal.classList.remove('is-active');
         });
     </script>
