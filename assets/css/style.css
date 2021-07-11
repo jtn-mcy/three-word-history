@@ -1,58 +1,43 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 
 
-/* .sidenav {
-    height: 100%; 
-    width: 180px; 
-    position: fixed; 
-    z-index: 1; 
- 
-    left: 0;
-    background-color: #111; 
-    overflow-x: hidden; 
-    padding-top: 20px;
-}
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-}
-
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-} */
-
-
 .notification {
     text-align: center;
     font-size: larger;
-    background: blue;
+    background: lightblue;
     color: white;
+    font-family: monospace ;
     z-index: 1; 
     padding: 25px 27px 25px 45px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 35px;
     left: 0;
     display: block;
     
 }
-  
+
+.title {
+    font-family: serif;
+}
+
+.container {
+    background-color: lightblue;
+}
+
 .navbar {
-    height: 100%;
+    border: none;
+    font-size: 1em;
+    margin: 0;
+    padding: 10px 100px;
+    text-align: center;
+    width: 100%;
 }
 
-.navbar-item img {
-    max-height: 100px;
-    max-width: 400px;
+.scatter-plot {
+    margin-top: 100px; 
+    margin-left: 200px;
 }
 
-.navbar-brand {
-    height: 100%;
+.dimple-custom-tooltip-box {
+    fill: red !important;
 }
