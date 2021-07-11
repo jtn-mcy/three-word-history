@@ -65,8 +65,8 @@ async function obtainArrays () { //will combine the two article arrays over a sp
         }
         var articleTitleArr = [] //declare a variable to obtain article titles
         var articleURLArr = []
-        for (i=0; i<combinedArticles.length; i++) {
-            if (i === 5) {break} //only up to 5 articles to display
+        for (i=combinedArticles.length-1; i>=0; i--) {
+            if (articleTitleArr.length === 5) {break} //only up to 5 articles to display
             else {
                 articleTitleArr.push(combinedArticles[i]['title']);
                 articleURLArr.push(combinedArticles[i]['url'])
