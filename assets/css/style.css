@@ -4,16 +4,26 @@
 .notification {
     text-align: center;
     font-size: larger;
-    background: blue;
+    background: lightblue;
     color: white;
+    font-family: monospace ;
     z-index: 1; 
     padding: 25px 27px 25px 45px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 35px;
     left: 0;
     display: block;
     
 }
+
+.title {
+    font-family: serif;
+}
+
+.container {
+    background-color: lightblue;
+}
+
 
 .section {
     background-color: beige;
@@ -23,11 +33,11 @@
     border: none;
     font-size: 1em;
     margin: 0;
-    padding: 10px 40px;
+    padding: 10px 100px;
     text-align: center;
     width: 100%;
 }
-  
+
 .scatter-plot {
     margin-top: 100px; 
     margin-left: 200px;
