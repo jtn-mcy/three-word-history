@@ -65,8 +65,8 @@ async function obtainArrays () { //will combine the two article arrays over a sp
         }
         var articleTitleArr = [] //declare a variable to obtain article titles
         var articleURLArr = []
-        for (i=0; i<combinedArticles.length; i++) {
-            if (i === 5) {break} //only up to 5 articles to display
+        for (i=combinedArticles.length-1; i>=0; i--) {
+            if (articleTitleArr.length === 5) {break} //only up to 5 articles to display
             else {
                 articleTitleArr.push(combinedArticles[i]['title']);
                 articleURLArr.push(combinedArticles[i]['url'])
@@ -91,8 +91,7 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
         obj['interest'] = 'Interest';
         jsonArr.push(obj);
     }
-    var appendThis = drawChart(jsonArr);
-    document.getElementsByTagName('body').appendChild(appendThis); //need to fix this! error in console append child not a function
+    drawChart(jsonArr);
 }
 
 function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search articles
@@ -112,7 +111,9 @@ function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search artic
         childEl.setAttribute('class', 'title is-5 p-2');
 
         var aEl = document.createElement('a');
-        aEl.setAttribute('href', arrURL[i]);
+        aEl.setAttribute('href', arrURL[i]); //
+        aEl.setAttribute('target', '_blank') //open page in new tab
+        aEl.setAttribute('style', 'text-decoration: none')
         aEl.innerHTML = arrTitle[i];
 
         childEl.appendChild(aEl);
@@ -126,14 +127,25 @@ function addNewsApiData(arrTitle, arrURL) { //updates column with 5 search artic
  * Adopted vars: jsonArr (values from NEWSAPI)
  */
 function drawChart (jsonData) {
-    var svg = dimple.newSvg("body", 800, 600);
+    var modal = document.getElementById("graph-modal");
+    removeAllChildren(modal);
+    var title = document.createElement('h3');
+    title.setAttribute('class', 'title mb-5');
+    title.textContent = 'Graph: Article Frequency over Time for ' + userInput + '.'
+    modal.appendChild(title);
+    var svg = dimple.newSvg("body", 620, 800);
     var data = jsonData;
     console.log(data);
     var chart = new dimple.chart(svg, data);
-    chart.addCategoryAxis("x", "date");
-    chart.addMeasureAxis("y", "HeadlineCount");
-    chart.addSeries(null, dimple.plot.scatterplot);
+    chart.setBounds(60, 30, '50px, 50%', '50px, 50%');
+    chart.addTimeAxis("x", "time", "%Y-%m-%d", "%d");
+    // chart.addCategoryAxis("x", "date");
+    chart.addMeasureAxis("y", "freq");
+    chart.addSeries(['interest'], dimple.plot.bubble);
+    chart.addLegend(500, 10, 5, 50, "right");
     chart.draw();
+    var charted = document.getElementsByTagName('svg')[0];
+    modal.appendChild(charted);
 }
 
 /******************GNEWS API********************************
@@ -208,10 +220,8 @@ function addGArticleData (article) { //creates elements to add article details
  *  Functions: compileSearch
  */
 function compileSearch () { //runs when user clicks search
-    jsonObject = jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
+    jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
     grabGNewsArticle(); //populates the #gnews-article column
-    //add code that will update the graph.html
-
 }
 
 function searchHistory (event) {
@@ -246,11 +256,15 @@ function removeAllChildren(parent) { //removes child nodes in the parent element
 document.getElementById("submit-input").addEventListener('click', function () { //clicks search button
     console.log('submit button!');
     searchInput = document.getElementById("search-input").value;
-    console.log('searching for..', searchInput);
-    userInput = addPlus(searchInput);
-    console.log(userInput);
-    updateSearchHistory(userInput);
-    // compileSearch();
+    if (searchInput === '') {
+        return
+    } else {
+        console.log('searching for..', searchInput);
+        userInput = addPlus(searchInput);
+        console.log(userInput);
+        updateSearchHistory(userInput);
+        compileSearch();
+    }
 })
 
 document.getElementById("clear-search").addEventListener('click', function () { //clicks a clear history button
