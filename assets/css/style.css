@@ -28,6 +28,8 @@
     font-size: 1em;
     margin: 0;
     padding: 10px 100px;
+    flex-direction:column;
+    justify-content: center;
     text-align: center;
 }
 
@@ -38,4 +40,8 @@
 
 .dimple-custom-tooltip-box {
     fill: red !important;
+}
+
+.navbar-brand {
+
 }
