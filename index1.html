@@ -141,10 +141,11 @@
     </div>
 
     <!-- modal About Window -->
-    <div class="modalApp">
-        <div class="modal-background-app"></div>
+    <div class="modal modalApp">
+        <div class="modal-background"></div>
         <div class="modal-content has-background-white py-6 px-6" id="about-modal">
-            <h3 class="title mb-5">Graph: Article Frequency over Time</h3>
+            <h3 class="title mb-5">About this App</h3>
+            <p>This app adds perspective to search.</p>
         </div>
     </div>
 
@@ -155,7 +156,7 @@
         var modal = document.querySelector('.modal');
 
         var aboutClick = document.querySelector('#about-app');
-        var modalBgApp = document.querySelector('.modal-background-app');
+        var modalBgApp = document.querySelector('.modal-background');
         var modalApp = document.querySelector('.modalApp');
 
         // Results Button listener
@@ -168,12 +169,12 @@
             modalApp.classList.add('is-active');
         });
 
-        // Background listener to cancel modal
+        // Background listener to cancel graph modal
         modalBg.addEventListener('click', () => {
             modal.classList.remove('is-active');
         });
 
-        // Background listener to cancel modal
+        // Background listener to cancel About App modal
         modalBgApp.addEventListener('click', () => {
             modal.classList.remove('is-active');
         });
