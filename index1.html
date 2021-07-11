@@ -15,14 +15,14 @@
 
 <body>
 <!-- Title -->
-    <div class="container">
-        <div class="notification">
+    <div class="container is-fluid">
+        <div class="notification is-size-3-mobile is-size-2-tablet is-size-1-desktop"">
             Three Word <strong>History</strong>
         </div>
     </div>
 
     <!-- Navigation bar -->
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-fluid" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <figure class="image is-96x96">
         <img src="assets/TWHlogo.png">
@@ -54,7 +54,7 @@
 
     <!-- App container -->
     <section class="section p-1">
-        <div class="container has-background-primary p-1">
+        <div class="container has-background-primary p-1 is-fluid">
 
             <!-- Main display area below header -->
             <p class="title is-2"></p>
@@ -62,26 +62,29 @@
                 <div class="column is-3 has-background-light p-2" id="info-area">
 
                     <!-- Information display area -->
-                    <p class="title is-3">Information Area</p>
-                    <p class="title is-4">Enter a few searchwords in the text field and hit the Submit button to instantlyquery two live API's.</p>
-                    <p class="title is-5"> Sources: GNewsAPI and newsAPI</p>
+                    <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop">Instructions</p>
+                    <p class="title is-size-6-mobile is-size-5-tablet is-size-4-desktop subtitle">Enter a few searchwords in the text field and hit the Submit button to instantly query two live API's.</p>
+                    <p class="title is-6"> Sources:
+                        <a href="https://gnews.io/">GNewsAPI</a> 
+                        and 
+                        <a href="https://newsapi.org/">NewsAPI</a></p>
 
                     <!-- Search History display area (bottom of Information Area)-->
                     <div id="search-history">
-                        <p>Search History</p>
+                        <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop">Search History</p>
                     </div>
                 </div>
                 <div class="column is-9 has-background-light p-2" id="display-area">
 
                     <!-- Search and buttons (Main Area on top)-->
                     <div class="container p-2">
-                        <p class="title is-3">Search Input Area</p>
+                        <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop">Search Input Area</p>
 
                         <!-- Search text input field -->
                         <div class="field">
-                            <label class="label">What is your searchword?</label>
+                            <label class="label">What are your searchwords?</label>
                             <div class="control">
-                                <input class="input" type="text" placeholder="Enter Searchword" id="search-input">
+                                <input class="input" type="text" placeholder="Enter Searchwords" id="search-input">
                             </div>
                         </div>
 
@@ -97,8 +100,8 @@
 
                     <!-- Output display columns from two query results (Main Area on bottom)-->
                     <div class="container p-2">
-                        <p class="title is-4">Results</p>
-                        <p class="title is-5 subtitle">Oldest NewsAPI : Newest GNewsAPI</p>
+                        <p class="title is-size-4-mobile is-size-3-tablet is-size-2-desktop">Results</p>
+                        <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop subtitle has-text-centered">GNewsAPI : NewsAPI</p>
                         <div class="columns p-2">
 
                             <!-- NewsAPI display Area (Left column) -->
