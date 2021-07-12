@@ -139,7 +139,7 @@ function drawChart (jsonData) {
     modal.appendChild(title);
     var svg = dimple.newSvg("body", 620, 800);
     var data = jsonData;
-    console.log(data);
+    console.log('data to draw chart', data);
     var chart = new dimple.chart(svg, data);
     chart.setBounds(60, 30, '50px, 50%', '50px, 50%');
     chart.addTimeAxis("x", "time", "%Y-%m-%d", "%d");
@@ -168,11 +168,11 @@ var gTenYearsAgo = moment().subtract(365*10, 'days').format('YYYY-MM-DD') + 'T00
 
 //fetching from gNewsAPI, obtain array of article objects to extract dates and headlines/data from
 async function gNewsAPI (url) {
-    console.log(url)
+    console.log('gnNewsAPI url', url)
     const response = await fetch(url);
     const data_gNewsAPI = await response.json();
     console.log('Total results gNews: ', data_gNewsAPI['totalArticles']);
-    console.log(data_gNewsAPI);
+    console.log('data from gNewsAPI', data_gNewsAPI);
     return data_gNewsAPI['articles'] //returns an array of article objects
 }
 
@@ -226,12 +226,12 @@ function addGArticleData (article) { //creates elements to add article details
 function compileSearch () { //runs when user clicks search
     jsonArr.splice(0, jsonArr.length); //reset jsonArr
     jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
-    // grabGNewsArticle(); //populates the #gnews-article column
+    grabGNewsArticle(); //populates the #gnews-article column
 }
 
 function searchHistory (event) {
     userInput = this.textContent;
-    console.log(userInput, event);
+    console.log('userInput, button clicked', userInput, event);
     compileSearch();
 }
 
