@@ -157,7 +157,7 @@
 
         var aboutClick = document.querySelector('#about-app');
         var modalBgApp = document.querySelector('.modal-background');
-        var modalApp = document.querySelector('.modalApp');
+        var modalApp = document.querySelector('.modal');
 
         // Results Button listener
         resultsButton.addEventListener('click', () => {
@@ -175,8 +175,8 @@
         });
 
         // Background listener to cancel About App modal
-        modalBgApp.addEventListener('click', () => {
-            modal.classList.remove('is-active');
+        modalBg.addEventListener('click', () => {
+            modalApp.classList.remove('is-active');
         });
     </script>
 
