@@ -15,7 +15,7 @@
 
 <body>
 <!-- Title -->
-    <div class="container has-background-dark is-fluid">
+    <div class="container is-fluid">
         <div class="notification is-size-3-mobile is-size-2-tablet is-size-1-desktop"">
             Three Word <strong>History</strong>
         </div>
@@ -79,11 +79,11 @@
 
                     <!-- Search and buttons (Main Area on top)-->
                     <div class="container p-2">
-                        <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop has-text-white">Search Input Area</p>
+                        <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop">Search Input Area</p>
 
                         <!-- Search text input field -->
                         <div class="field">
-                            <label class="label has-text-white">What are your searchwords?</label>
+                            <label class="label">What are your searchwords?</label>
                             <div class="control">
                                 <input class="input" type="text" placeholder="Enter Searchwords" id="search-input">
                             </div>
@@ -101,17 +101,15 @@
 
                     <!-- Output display columns from two query results (Main Area on bottom)-->
                     <div class="container p-2">
-                        <p class="title is-size-4-mobile is-size-3-tablet is-size-2-desktop has-text-white">Results</p>
-                        <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop subtitle has-text-centered has-text-white">GNewsAPI : NewsAPI</p>
+                        <p class="title is-size-4-mobile is-size-3-tablet is-size-2-desktop">Results</p>
+                        <p class="title is-size-5-mobile is-size-4-tablet is-size-3-desktop subtitle has-text-centered">NewsAPI : GNewsAPI</p>
                         <div class="columns p-2">
 
                             <!-- NewsAPI display Area (Left column) -->
                             <div class="column is-6 has-background-light p-2" id="newsapi-article">
                                 <p>NewsAPI display</p>
                                 <p class="title is-5 p-2">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae tempora, vel
-                                    doloremque ipsum sapiente impedit soluta inventore quam eius asperiores ad sequi ea
-                                    nulla ducimus, qui incidunt! Aliquid, totam accusamus!
+
                                 </p>
                             </div>
 
@@ -119,10 +117,6 @@
                             <div class="column is-6 has-background-light p-2" id="gnews-article">
                                 <p class="title-is-3">GNews API display</p>
                                 <p class="title is-5 p-2">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi porro vero
-                                    cupiditate incidunt dicta nulla voluptatem, debitis reprehenderit, vel asperiores
-                                    necessitatibus laboriosam nisi! Assumenda quo suscipit, distinctio quasi asperiores
-                                    pariatur!
                                 </p>
                             </div>
                         </div>
@@ -153,34 +147,32 @@
     <!-- GOES INTO JS - modal listeners -->
     <script>
         var resultsButton = document.querySelector('#view-results');
-        var modalBg = document.querySelector('.modal-background');
-        var modal = document.querySelector('.modal');
+        var aboutClick = document.querySelector('#about-app');
+        var modalBg = document.querySelectorAll('.modal-background');
+        var modals = document.querySelectorAll('.modal');
 
 
         // Results Button listener
         resultsButton.addEventListener('click', () => {
-            modal.classList.add('is-active');
+            modals[0].classList.add('is-active');
         });
 
-        // Background listener to cancel graph modal
-        modalBg.addEventListener('click', () => {
-            modal.classList.remove('is-active');
+        //About button listener
+        aboutClick.addEventListener('click', () => {
+            modals[1].classList.add('is-active');
         });
 
-    //     var aboutClick = document.querySelector('#about-app');
-    //     var modalBgApp = document.querySelector('.modal-background');
-    //     var modalApp = document.querySelector('#modalApp');
+        // Background listener to remove modals for results and about app modals
+        modalBg[0].addEventListener('click', () => { //results
+            modals[0].classList.remove('is-active');
+        });
 
-    //     // ABout Click listener
-    //     aboutClick.addEventListener('click', () => {
-    //         modalApp.classList.add('is-active');
-    //     });
+        modalBg[1].addEventListener('click', () => { //about app
+            modals[1].classList.remove('is-active');
+        });
 
-    //     // Background listener to cancel About App modal
-    //     modalBgApp.addEventListener('click', () => {
-    //         modalApp.classList.remove('is-active');
-    //     });
-    // </script>
+        var aboutClick = document.querySelector('#about-app');
+    </script>
 
     <!--moment JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

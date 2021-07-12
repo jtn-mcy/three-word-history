@@ -6,6 +6,7 @@
  */
 //Userinput from search form
 var userInput = ''; //searchInput.value
+var jsonArr = []; //data for the graphs
 //Query parameters
 var nSortBy = '&sortby=' + 'publishedAt';
 var nPageSize = '&pageSize=' + 100;
@@ -26,20 +27,21 @@ async function newsAPI (url) {
     // console.log(response);
     const data_newsAPI = await response.json(); //jsonify the response
     // console.log(data_newsAPI);
-    console.log('Total results: ', data_newsAPI['totalResults']); 
+    console.log('Total results NewsApi: ', data_newsAPI['totalResults']); 
     // console.log(data_newsAPI['articles'])
     return data_newsAPI['articles']; //returns an array of articles
 }
 
-var arrDate = []; // dates
-var arrHeadlineCount = []; //headlines count per date
+
 
 async function obtainArrays () { //will combine the two article arrays over a span of 2 weeks and separate
     var newsApiURL14to7 = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, fourteenDaysAgo, toDate, sevenDaysAgo, apiKey);
     var newsApiURL7toNow = newsApiBase.concat('qInTitle=', userInput, nPageSize, nSortBy, fromDate, sevenDaysAgo, toDate, now, apiKey);
-    let articles14to7 = await newsAPI(newsApiURL14to7);
+    var arrDate = []; // dates
+    var arrHeadlineCount = []; //headlines count per date
+    var articles14to7 = await newsAPI(newsApiURL14to7);
     articles14to7 = articles14to7.reverse(); //puts the articles in chronological order
-    let articles7to0 = await newsAPI(newsApiURL7toNow);
+    var articles7to0 = await newsAPI(newsApiURL7toNow);
     articles7to0 = articles7to0.reverse() //puts the articles in chronological order
     var combinedArticles = articles14to7.concat(articles7to0);
     console.log('Total amount of articles: ', combinedArticles.length); //tells us how many articles obtained total
@@ -78,9 +80,10 @@ async function obtainArrays () { //will combine the two article arrays over a sp
 }
 
 async function jsonifiedArray () { //add objects into jsonArr so that it can be dimpled into a graph
-    let unjsonifiedArr = await obtainArrays()
-    console.log(unjsonifiedArr);
-    var jsonArr = [] //reset jsonArr
+    var unjsonifiedArr = await obtainArrays()
+    console.log('unjsonifiedArr', unjsonifiedArr);
+
+    console.log('jsonArr reset?', jsonArr)
     console.log(unjsonifiedArr.length);
     firstUnjson = unjsonifiedArr[0];
     secondUnjson = unjsonifiedArr[1];
@@ -91,6 +94,7 @@ async function jsonifiedArray () { //add objects into jsonArr so that it can be 
         obj['interest'] = 'Interest';
         jsonArr.push(obj);
     }
+    console.log('jsonArr data', jsonArr);
     drawChart(jsonArr);
 }
 
@@ -135,7 +139,7 @@ function drawChart (jsonData) {
     modal.appendChild(title);
     var svg = dimple.newSvg("body", 620, 800);
     var data = jsonData;
-    console.log(data);
+    console.log('data to draw chart', data);
     var chart = new dimple.chart(svg, data);
     chart.setBounds(60, 30, '50px, 50%', '50px, 50%');
     chart.addTimeAxis("x", "time", "%Y-%m-%d", "%d");
@@ -164,11 +168,11 @@ var gTenYearsAgo = moment().subtract(365*10, 'days').format('YYYY-MM-DD') + 'T00
 
 //fetching from gNewsAPI, obtain array of article objects to extract dates and headlines/data from
 async function gNewsAPI (url) {
-    console.log(url)
+    console.log('gnNewsAPI url', url)
     const response = await fetch(url);
     const data_gNewsAPI = await response.json();
-    console.log('Total results: ', data_gNewsAPI['totalArticles']);
-    console.log(data_gNewsAPI);
+    console.log('Total results gNews: ', data_gNewsAPI['totalArticles']);
+    console.log('data from gNewsAPI', data_gNewsAPI);
     return data_gNewsAPI['articles'] //returns an array of article objects
 }
 
@@ -220,14 +224,15 @@ function addGArticleData (article) { //creates elements to add article details
  *  Functions: compileSearch
  */
 function compileSearch () { //runs when user clicks search
+    jsonArr.splice(0, jsonArr.length); //reset jsonArr
     jsonifiedArray(); //obtain jsonData to be used for graphing, populate the #newsapi-article column
     grabGNewsArticle(); //populates the #gnews-article column
 }
 
 function searchHistory (event) {
     userInput = this.textContent;
-    console.log(userInput, event);
-    // compileSearch();
+    console.log('userInput, button clicked', userInput, event);
+    compileSearch();
 }
 
 /**************MISC FUNCTIONS**************************** 
@@ -327,4 +332,4 @@ function clearSearchHistory () {
     renderSearchHistory(gp1SearchHistory);
  } 
 
-// init() //initializes the page and renders the search history
+init() //initializes the page and renders the search history
