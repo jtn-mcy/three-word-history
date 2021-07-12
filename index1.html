@@ -141,11 +141,11 @@
     </div>
 
     <!-- modal About Window -->
-    <div class="modal modalApp">
+    <div class="modal" id="modalApp">
         <div class="modal-background"></div>
         <div class="modal-content has-background-white py-6 px-6" id="about-modal">
             <h3 class="title mb-5">About this App</h3>
-            <p>This app adds perspective to search.</p>
+            <p>This app adds perspective to search.  When researching a topic, it's it's easiy to be blindsided by current popup headlines.  It's just as easy to lose a detail's place in history.  Three-Word-History helps qualify the results of everyday searches in three ways.  First, we have chosen two upstanding news API's in GnewsAPI and newsAPI.  Knowing your sources is an important first step to any successful research.  Three-Word-History also shows you side-by-side results from the oldest find to one of the newest.  Finally, Three-Word-History shows you how trending on reporting found by your searchwords is shown on a scatterplot graph over time, allowing you to further qulify the part of the total story you are reading in any particular article, over the total newcycle of the content searched.</p>
         </div>
     </div>
 
@@ -157,16 +157,11 @@
 
         var aboutClick = document.querySelector('#about-app');
         var modalBgApp = document.querySelector('.modal-background');
-        var modalApp = document.querySelector('.modal');
+        var modalApp = document.querySelector('#modalApp');
 
         // Results Button listener
         resultsButton.addEventListener('click', () => {
             modal.classList.add('is-active');
-        });
-
-        // ABout Click listener
-        aboutClick.addEventListener('click', () => {
-            modalApp.classList.add('is-active');
         });
 
         // Background listener to cancel graph modal
@@ -174,8 +169,13 @@
             modal.classList.remove('is-active');
         });
 
+        // ABout Click listener
+        aboutClick.addEventListener('click', () => {
+            modalApp.classList.add('is-active');
+        });
+
         // Background listener to cancel About App modal
-        modalBg.addEventListener('click', () => {
+        modalBgApp.addEventListener('click', () => {
             modalApp.classList.remove('is-active');
         });
     </script>
