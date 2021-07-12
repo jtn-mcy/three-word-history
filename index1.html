@@ -155,9 +155,6 @@
         var modalBg = document.querySelector('.modal-background');
         var modal = document.querySelector('.modal');
 
-        var aboutClick = document.querySelector('#about-app');
-        var modalBgApp = document.querySelector('.modal-background');
-        var modalApp = document.querySelector('#modalApp');
 
         // Results Button listener
         resultsButton.addEventListener('click', () => {
@@ -169,16 +166,20 @@
             modal.classList.remove('is-active');
         });
 
-        // ABout Click listener
-        aboutClick.addEventListener('click', () => {
-            modalApp.classList.add('is-active');
-        });
+    //     var aboutClick = document.querySelector('#about-app');
+    //     var modalBgApp = document.querySelector('.modal-background');
+    //     var modalApp = document.querySelector('#modalApp');
 
-        // Background listener to cancel About App modal
-        modalBgApp.addEventListener('click', () => {
-            modalApp.classList.remove('is-active');
-        });
-    </script>
+    //     // ABout Click listener
+    //     aboutClick.addEventListener('click', () => {
+    //         modalApp.classList.add('is-active');
+    //     });
+
+    //     // Background listener to cancel About App modal
+    //     modalBgApp.addEventListener('click', () => {
+    //         modalApp.classList.remove('is-active');
+    //     });
+    // </script>
 
     <!--moment JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
