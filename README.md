@@ -63,6 +63,7 @@ HTML
 CSS
 GitHub
 [The Net Ninja youtube tutorial series](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg)
+![made with Bulma](./assets/demo-assets/made-with-bulma.png)
 
 
 ## License
